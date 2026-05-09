@@ -66,6 +66,7 @@ async function signUp(req, res) {
       password: hashedPassword,
       otp: otp,
       expiresAt: expiresAt,
+      lastOtpSentAt: Date.now(),
     });
 
     await transporter.sendMail({
@@ -144,6 +145,7 @@ async function verifyOtp(req, res) {
     if (pendingUser.otp.trim() !== otp) {
       return res.status(400).json({
         message: "Invalid OTP",
+        errorMessage: "Invalid OTP",
       });
     }
 
@@ -173,8 +175,63 @@ async function verifyOtp(req, res) {
   }
 }
 
+async function resendOtp(req, res) {
+  const { email } = req.body;
+  try {
+    console.log("RESEND STARTED");
+    const pendingUser = await PendingUser.findOne({
+      email: email.trim().toLowerCase(),
+    });
+
+    if (!pendingUser) {
+      return res.status(404).json({
+        message: "No pending verification Found",
+      });
+    }
+
+    const now = Date.now();
+    const diff = now - pendingUser.lastOtpSentAt;
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    if (diff < 30000) {
+      return res.render("auth/verify", {
+        title: "Verify Your email",
+        email,
+        successMessage: null,
+        errorMessage: "Please wait 30 seconds before requesting another OTP",
+      });
+    }
+
+    console.log("BEFORE EMAIL");
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: pendingUser.email,
+      subject: "OTP Verification",
+      text: `Your OTP is ${otp}`,
+    });
+    console.log("AFTER EMAIL");
+
+    pendingUser.otp = otp;
+    pendingUser.expiresAt = Date.now() + 5 * 60 * 1000;
+    pendingUser.lastOtpSentAt = Date.now();
+    await pendingUser.save();
+
+    return res.render("auth/verify", {
+      title: "Verify your email",
+      email,
+      successMessage: "OTP sent successfully",
+      errorMessage: null,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Server Failed to respond",
+    });
+  }
+}
 module.exports = {
   signUp: signUp,
   login: login,
   verifyOtp: verifyOtp,
+  resendOtp: resendOtp,
 };

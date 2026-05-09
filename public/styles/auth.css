@@ -316,3 +316,28 @@ body {
   font-weight: 700;
   text-align: center;
 }
+
+.message {
+  width: 100%;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  margin-bottom: 18px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.success-message {
+  background-color: #e8f7ee;
+  color: #1e7a46;
+  border: 1px solid #b7e4c7;
+}
+
+.error-message {
+  background-color: #fdecec;
+  color: #c0392b;
+  border: 1px solid #f5b7b1;
+}

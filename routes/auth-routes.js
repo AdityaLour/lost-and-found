@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { signUp, login, verifyOtp } = require("../controllers/auth-controller");
+const {
+  signUp,
+  login,
+  verifyOtp,
+  resendOtp,
+} = require("../controllers/auth-controller");
 
 router.get("/getstarted", (req, res) => {
   const activeForm = req.query.form || "signup";
@@ -29,11 +34,14 @@ router.get("/verify", (req, res) => {
   res.render("auth/verify", {
     title: "Verify your email",
     email,
+    successMessage: null,
+    errorMessage: null,
   });
 });
 
 router.post("/signup", signUp);
 router.post("/login", login);
 router.post("/verify", verifyOtp);
+router.post("/resend-otp", resendOtp);
 
 module.exports = router;

@@ -32,6 +32,11 @@ const pendingUserSchema = new Schema(
       type: Date,
       required: true,
     },
+
+    lastOtpSentAt: {
+      type: Date,
+      required: true,
+    },
   },
   {
     timestamps: true,

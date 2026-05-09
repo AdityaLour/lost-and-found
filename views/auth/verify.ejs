@@ -18,6 +18,21 @@
     <p class="auth-title">
       Verify your Email
     </p>
+    <% if (successMessage) { %>
+
+    <div class="message success-message">
+      <%= successMessage %>
+    </div>
+
+    <% } %>
+
+    <% if (errorMessage) { %>
+
+    <div class="message error-message">
+      <%= errorMessage %>
+    </div>
+
+    <% } %>
 
     <form action="/auth/verify" method="post" class="auth-form">
       <input type="hidden" name="email" value="<%= email %>">
@@ -40,13 +55,23 @@
         <span>OR</span>
       </div>
 
-      <button type="button" class="google-btn resend-btn">
+
+    </form>
+    <form action="/auth/resend-otp" method="post" class="resend-form">
+
+      <input type="hidden" name="email" value="<%= email %>">
+
+      <button type="submit" class="google-btn resend-btn">
         Resend OTP
       </button>
 
     </form>
 
   </div>
+
+
+  </div>
+
 
 </body>
 
