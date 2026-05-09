@@ -4,12 +4,16 @@ const path = require("path");
 
 const connectDb = require("./db/database");
 const authRoutes = require("./routes/auth-routes");
+const sessionConfig = require("./config/session");
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+
+app.use(sessionConfig);
 
 app.use("/auth", authRoutes);
 

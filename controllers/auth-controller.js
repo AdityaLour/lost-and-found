@@ -2,7 +2,8 @@ const User = require("../models/user-schema");
 const bcrypt = require("bcrypt");
 
 async function signUp(req, res) {
-  const { username, fullName, email, password, confirmPassword } = req.body;
+  const { username, email, password, confirmPassword } = req.body;
+
   try {
     if (!email.includes("@")) {
       return res.status(400).json({
@@ -10,14 +11,14 @@ async function signUp(req, res) {
       });
     }
 
-    if (!fullName.trim()) {
+    if (!username.trim()) {
       return res.status(400).json({
-        message: "Please enter your full name",
+        message: "Please enter username",
       });
     }
 
     const existingEmail = await User.findOne({
-      email: email,
+      email: email.toLowerCase().trim(),
     });
 
     if (existingEmail) {
@@ -27,7 +28,7 @@ async function signUp(req, res) {
     }
 
     const existingUsername = await User.findOne({
-      username: username,
+      username: username.trim().toLowerCase(),
     });
 
     if (existingUsername) {
@@ -45,13 +46,17 @@ async function signUp(req, res) {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await User.create({
-      username: username.trim(),
-      fullName: fullName,
+      username: username.trim().toLowerCase(),
       email: email.toLowerCase().trim(),
       password: hashedPassword,
     });
 
-    return res.status(200).json({
+    req.session.user = {
+      id: user._id,
+      username: user.username,
+    };
+
+    return res.status(201).json({
       message: "User created Successfully",
     });
   } catch (err) {
@@ -59,4 +64,6 @@ async function signUp(req, res) {
   }
 }
 
-module.exports = signUp;
+module.exports = {
+  signUp: signUp,
+};

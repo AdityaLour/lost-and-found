@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { signUp } = require("../controllers/auth-controller");
 
 router.get("/getstarted", (req, res) => {
   const activeForm = req.query.form || "signup";
@@ -22,5 +23,7 @@ router.get("/login", (req, res) => {
     title: "Welcome back!",
   });
 });
+
+router.post("/signup", signUp);
 
 module.exports = router;
