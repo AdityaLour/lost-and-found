@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { signUp } = require("../controllers/auth-controller");
+const { signUp, login } = require("../controllers/auth-controller");
 
 router.get("/getstarted", (req, res) => {
   const activeForm = req.query.form || "signup";
@@ -25,5 +25,6 @@ router.get("/login", (req, res) => {
 });
 
 router.post("/signup", signUp);
+router.post("/login", login);
 
 module.exports = router;
