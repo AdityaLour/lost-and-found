@@ -1,5 +1,7 @@
 const User = require("../models/user-schema");
+const PendingUser = require("../models/pendingUser-schema");
 const bcrypt = require("bcrypt");
+const transporter = require("../config/mail");
 
 async function signUp(req, res) {
   const { username, email, password, confirmPassword } = req.body;
@@ -45,20 +47,38 @@ async function signUp(req, res) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const user = await User.create({
-      username: username.trim().toLowerCase(),
+    const existingPendingUser = await PendingUser.findOne({
       email: email.toLowerCase().trim(),
+    });
+
+    if (existingPendingUser) {
+      return res.status(400).json({
+        message: "OTP already sent. Please verify your email.",
+      });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 5 * 60 * 1000;
+
+    await PendingUser.create({
+      username: username.trim().toLowerCase(),
+      email: email.trim().toLowerCase(),
       password: hashedPassword,
+      otp: otp,
+      expiresAt: expiresAt,
     });
 
-    req.session.user = {
-      id: user._id,
-      username: user.username,
-    };
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email.trim().toLowerCase(),
 
-    return res.status(201).json({
-      message: "User created Successfully",
+      subject: "Otp Verification",
+
+      text: `Your OTP is ${otp}`,
     });
+    return res.redirect(
+      `/auth/verify?email=${encodeURIComponent(email.trim().toLowerCase())}`,
+    );
   } catch (err) {
     return res.status(500).json({ message: "Server failed to respond" });
   }
@@ -98,7 +118,63 @@ async function login(req, res) {
   }
 }
 
+async function verifyOtp(req, res) {
+  const { email, otp } = req.body;
+  try {
+    const pendingUser = await PendingUser.findOne({
+      email: email.trim().toLowerCase(),
+    });
+
+    if (!pendingUser) {
+      return res.status(404).json({
+        message: "No pending verification found",
+      });
+    }
+
+    if (pendingUser.expiresAt < Date.now()) {
+      await PendingUser.deleteOne({
+        email: email.toLowerCase().trim(),
+      });
+
+      return res.status(400).json({
+        message: "OTP expired",
+      });
+    }
+
+    if (pendingUser.otp.trim() !== otp) {
+      return res.status(400).json({
+        message: "Invalid OTP",
+      });
+    }
+
+    const user = await User.create({
+      username: pendingUser.username,
+      email: pendingUser.email,
+      password: pendingUser.password,
+    });
+
+    req.session.user = {
+      id: user._id,
+      username: user.username,
+    };
+
+    await PendingUser.deleteOne({
+      email: pendingUser.email,
+    });
+
+    return res.status(201).json({
+      message: "Email verified successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Server failed to respond",
+    });
+  }
+}
+
 module.exports = {
   signUp: signUp,
   login: login,
+  verifyOtp: verifyOtp,
 };
