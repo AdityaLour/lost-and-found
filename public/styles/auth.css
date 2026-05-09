@@ -305,3 +305,14 @@ body {
     width: 70px;
   }
 }
+
+.resend-btn {
+  cursor: pointer;
+}
+
+#otp-group .form-input {
+  letter-spacing: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
