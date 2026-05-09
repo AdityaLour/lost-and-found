@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Verify OTP</title>
+
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="stylesheet" href="/styles/auth.css">
+</head>
+
+<body>
+
+  <div class="card">
+
+    <p class="auth-title">
+      Verify your Email
+    </p>
+
+    <form action="/auth/verify" method="post" class="auth-form">
+      <input type="hidden" name="email" value="<%= email %>">
+
+      <div class="form-group" id="otp-group">
+
+        <label for="otp">
+          OTP
+        </label>
+
+        <input type="text" placeholder="Enter the 6-digit OTP" class="form-input" required id="otp" name="otp" maxlength="6">
+
+      </div>
+
+      <button type="submit" class="button">
+        Verify OTP
+      </button>
+
+      <div class="auth-divider">
+        <span>OR</span>
+      </div>
+
+      <button type="button" class="google-btn resend-btn">
+        Resend OTP
+      </button>
+
+    </form>
+
+  </div>
+
+</body>
+
+</html>
