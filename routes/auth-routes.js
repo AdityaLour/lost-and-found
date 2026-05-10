@@ -13,6 +13,8 @@ router.get("/getstarted", (req, res) => {
   res.render("auth/get-started", {
     activeForm,
     title: activeForm === "signup" ? "Create a new Account" : "Welcome Back!",
+    successMessage: null,
+    errorMessage: null,
   });
 });
 

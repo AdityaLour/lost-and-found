@@ -12,6 +12,18 @@
 <body>
   <div class="card">
     <p class="auth-title"><%= title  || "Create a new account"%></p>
+
+    <% if (successMessage) { %>
+    <div class="message success-message">
+      <%= successMessage %>
+    </div>
+    <% } %>
+    <% if (errorMessage) { %>
+    <div class="message error-message">
+      <%= errorMessage %>
+    </div>
+
+    <% } %>
     <div class="auth-toggle">
       <a href="/auth/getstarted?form=signup" class="<%= activeForm === 'signup' ? 'active' : '' %>">Sign up</a>
       <a href="/auth/getstarted?form=login" class="<%= activeForm === 'login' ? 'active' : '' %>">Log in</a>

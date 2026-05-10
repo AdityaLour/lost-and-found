@@ -98,6 +98,15 @@ async function login(req, res) {
       });
     }
 
+    if (!userExist.password) {
+      return res.render("auth/get-started", {
+        title: "Welcome back!",
+        activeForm: "login",
+        errorMessage: "This account uses Google Sign-In",
+        successMessage: null,
+      });
+    }
+
     const comparePassword = await bcrypt.compare(password, userExist.password);
     if (!comparePassword) {
       return res.status(401).json({
