@@ -6,6 +6,7 @@ const {
   verifyOtp,
   resendOtp,
 } = require("../controllers/auth-controller");
+const passport = require("passport");
 
 router.get("/getstarted", (req, res) => {
   const activeForm = req.query.form || "signup";
@@ -38,6 +39,23 @@ router.get("/verify", (req, res) => {
     errorMessage: null,
   });
 });
+
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  }),
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/auth/login",
+  }),
+  (req, res) => {
+    res.send("Google Login Successful");
+  },
+);
 
 router.post("/signup", signUp);
 router.post("/login", login);

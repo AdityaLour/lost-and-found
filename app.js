@@ -5,6 +5,7 @@ const path = require("path");
 const connectDb = require("./db/database");
 const authRoutes = require("./routes/auth-routes");
 const sessionConfig = require("./config/session");
+const passport = require("./config/passport");
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(sessionConfig);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/auth", authRoutes);
 
