@@ -341,3 +341,21 @@ body {
   color: #c0392b;
   border: 1px solid #f5b7b1;
 }
+
+.forgot-password-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -10px;
+}
+
+.forgot-password-link {
+  font-size: 14px;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.3s ease;
+}
+
+.forgot-password-link:hover {
+  opacity: 0.8;
+}

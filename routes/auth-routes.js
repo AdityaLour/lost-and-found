@@ -5,6 +5,9 @@ const {
   login,
   verifyOtp,
   resendOtp,
+  forgotPassword,
+  verifyResetOtp,
+  resetPassword,
 } = require("../controllers/auth-controller");
 const passport = require("passport");
 
@@ -59,9 +62,40 @@ router.get(
   },
 );
 
+router.get("/forgot-password", (req, res) => {
+  res.render("auth/forgot-password", {
+    title: "Forgot Password",
+    successMessage: null,
+    errorMessage: null,
+  });
+});
+
+router.get("/verify-reset", (req, res) => {
+  const { email } = req.query;
+  res.render("auth/verify-reset", {
+    title: "Verify Reset OTP",
+    email,
+    successMessage: null,
+    errorMessage: null,
+  });
+});
+
+router.get("/reset-password", (req, res) => {
+  const { email } = req.query;
+  res.render("auth/reset-password", {
+    title: "Reset Password",
+    email,
+    successMessage: null,
+    errorMessage: null,
+  });
+});
+
 router.post("/signup", signUp);
 router.post("/login", login);
 router.post("/verify", verifyOtp);
 router.post("/resend-otp", resendOtp);
+router.post("/forgot-password", forgotPassword);
+router.post("/verify-reset", verifyResetOtp);
+router.post("/reset-password", resetPassword);
 
 module.exports = router;

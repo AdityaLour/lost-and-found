@@ -2,6 +2,7 @@ const User = require("../models/user-schema");
 const PendingUser = require("../models/pendingUser-schema");
 const bcrypt = require("bcrypt");
 const transporter = require("../config/mail");
+const PasswordReset = require("../models/passwordReset-schema");
 
 async function signUp(req, res) {
   const { username, email, password, confirmPassword } = req.body;
@@ -238,9 +239,202 @@ async function resendOtp(req, res) {
     });
   }
 }
+
+async function forgotPassword(req, res) {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({
+      email: email.trim().toLowerCase(),
+    });
+
+    if (!user) {
+      return res.render("auth/forgot-password", {
+        title: "Forgot Password",
+        successMessage: null,
+        errorMessage: "No account found with this email",
+      });
+    }
+
+    if (!user.password) {
+      return res.render("auth/forgot-password", {
+        title: "Forgot Password",
+        successMessage: null,
+        errorMessage: "This account uses Google Sign-In",
+      });
+    }
+
+    const existingReset = await PasswordReset.findOne({
+      email: email.trim().toLowerCase(),
+    });
+
+    if (existingReset) {
+      const diff = Date.now() - existingReset.lastOtpSentAt;
+
+      if (diff < 30000) {
+        return res.render("auth/forgot-password", {
+          title: "Forgot Password",
+          successMessage: null,
+          errorMessage: "Please wait before requesting another OTP",
+        });
+      }
+
+      await PasswordReset.deleteOne({
+        email: email.trim().toLowerCase(),
+      });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    const expiresAt = Date.now() + 5 * 60 * 1000;
+
+    await PasswordReset.create({
+      email: email.trim().toLowerCase(),
+      otp,
+      expiresAt,
+      lastOtpSentAt: Date.now(),
+    });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email.trim().toLowerCase(),
+      subject: "Password Reset OTP",
+      text: `Your OTP is ${otp}`,
+    });
+
+    return res.redirect(
+      `/auth/verify-reset?email=${encodeURIComponent(email.trim().toLowerCase())}`,
+    );
+  } catch (error) {
+    console.log(error);
+    return res.render("auth/forgot-password", {
+      title: "Forgot Password",
+      successMessage: null,
+      errorMessage: "Server failed to respond",
+    });
+  }
+}
+
+async function verifyResetOtp(req, res) {
+  const { email, otp } = req.body;
+
+  try {
+    const passwordReset = await PasswordReset.findOne({
+      email: email.trim().toLowerCase(),
+    });
+
+    if (!passwordReset) {
+      return res.render("auth/verify-reset", {
+        title: "Verify Reset OTP",
+        email,
+        successMessage: null,
+        errorMessage: "No reset request found",
+      });
+    }
+
+    if (passwordReset.expiresAt < Date.now()) {
+      await PasswordReset.deleteOne({
+        email: email.trim().toLowerCase(),
+      });
+
+      return res.render("auth/verify-reset", {
+        title: "Verify Reset OTP",
+        email,
+        successMessage: null,
+        errorMessage: "OTP expired",
+      });
+    }
+
+    if (passwordReset.otp !== otp) {
+      return res.render("auth/verify-reset", {
+        title: "Verify Reset OTP",
+        email,
+        successMessage: null,
+        errorMessage: "Invalid OTP",
+      });
+    }
+
+    return res.redirect(
+      `/auth/reset-password?email=${encodeURIComponent(
+        email.trim().toLowerCase(),
+      )}`,
+    );
+  } catch (error) {
+    console.log(error);
+
+    return res.render("auth/verify-reset", {
+      title: "Verify Reset OTP",
+      email,
+      successMessage: null,
+      errorMessage: "Server failed to respond",
+    });
+  }
+}
+
+async function resetPassword(req, res) {
+  const { email, password, confirmPassword } = req.body;
+  try {
+    if (password !== confirmPassword) {
+      return res.render("auth/reset-password", {
+        title: "Reset Password",
+        email,
+        successMessage: null,
+        errorMessage: "Passwords do not match",
+      });
+    }
+
+    const passwordReset = await PasswordReset.findOne({
+      email: email.trim().toLowerCase(),
+    });
+
+    if (!passwordReset) {
+      return res.render("auth/reset-password", {
+        title: "Reset Password",
+        email,
+        successMessage: null,
+        errorMessage: "Reset session expired",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    await User.updateOne(
+      {
+        email: email.trim().toLowerCase(),
+      },
+
+      {
+        password: hashedPassword,
+      },
+    );
+
+    await PasswordReset.deleteOne({
+      email: email.trim().toLowerCase(),
+    });
+
+    return res.render("auth/get-started", {
+      activeForm: "login",
+      title: "Welcome Back!",
+      successMessage: "Password reset successful",
+      errorMessage: null,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.render("auth/reset-password", {
+      title: "Reset Password",
+      email,
+      successMessage: null,
+      errorMessage: "Server failed to respond",
+    });
+  }
+}
 module.exports = {
   signUp: signUp,
   login: login,
   verifyOtp: verifyOtp,
   resendOtp: resendOtp,
+  forgotPassword: forgotPassword,
+  verifyResetOtp: verifyResetOtp,
+  resetPassword: resetPassword,
 };
