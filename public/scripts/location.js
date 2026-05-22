@@ -27,8 +27,47 @@ function updateMap(latitude, longitude) {
     map.removeLayer(marker);
   }
 
-  marker = L.marker([latitude, longitude]).addTo(map);
+  marker = L.marker([latitude, longitude], {
+    draggable: true,
+  }).addTo(map);
+
   map.setView([latitude, longitude], 15);
+  marker.on(
+    "dragend",
+
+    async () => {
+      const position = marker.getLatLng();
+      const latitude = position.lat;
+      const longitude = position.lng;
+
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+        );
+
+        const data = await response.json();
+        const updatedAddress = data.display_name;
+        locationInput.value = updatedAddress;
+
+        selectedLocation = {
+          address: updatedAddress,
+          latitude,
+          longitude,
+          source: "marker-adjusted",
+        };
+
+        updateHiddenInputs();
+
+        locationMessage.textContent = "Location updated from marker";
+
+        console.log(selectedLocation);
+      } catch (error) {
+        console.log(error);
+
+        locationMessage.textContent = "Failed to update location";
+      }
+    },
+  );
 }
 
 locationInput.addEventListener("input", async () => {

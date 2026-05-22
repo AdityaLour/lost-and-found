@@ -11,7 +11,6 @@ async function getLocationPage(req, res) {
 
 async function saveLocation(req, res) {
   const { address, latitude, longitude, source } = req.body;
-
   try {
     if (!address || !latitude || !longitude) {
       return res.status(400).send("Please select a valid location");
