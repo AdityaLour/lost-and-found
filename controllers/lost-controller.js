@@ -33,7 +33,42 @@ async function saveLocation(req, res) {
   }
 }
 
+async function getDescriptionPage(req, res) {
+  try {
+    return res.render("lost/description", { title: "Lost Item description" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Server failed to respond");
+  }
+}
+
+async function saveDescription(req, res) {
+  const { title, category, description, lostDate } = req.body;
+
+  try {
+    req.session.lostItem = {
+      ...req.session.lostItem,
+
+      description: {
+        title,
+        category,
+        details: description,
+        lostDate,
+      },
+    };
+    console.log(req.session.lostItem);
+
+    return res.redirect("/lost/image");
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).send("Server failed to respond");
+  }
+}
+
 module.exports = {
   getLocationPage,
   saveLocation,
+  getDescriptionPage,
+  saveDescription,
 };

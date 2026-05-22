@@ -112,6 +112,49 @@ body {
 .location-card form {
   display: flex;
   flex-direction: column;
-
   gap: 20px;
+}
+
+#title,
+#category,
+#description,
+#lostDate {
+  width: 100%;
+  padding: 16px 18px;
+  border: none;
+  outline: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  background-color: white;
+  color: #111827;
+}
+
+#title::placeholder,
+#description::placeholder {
+  color: #6b7280;
+}
+
+#description {
+  resize: vertical;
+  min-height: 140px;
+  font-family: sans-serif;
+}
+
+#category {
+  cursor: pointer;
+}
+
+#lostDate {
+  cursor: pointer;
+}
+
+textarea {
+  font-family: sans-serif;
+}
+
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
 }
