@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1c1d1f;
+  font-family: sans-serif;
+}
+
+.location-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.location-card {
+  width: 500px;
+  padding: 40px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.location-card h1 {
+  color: wheat;
+  font-size: 2rem;
+  text-align: center;
+}
+
+#location-input {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  outline: none;
+  border-radius: 14px;
+  font-size: 1rem;
+}
+
+#current-location-btn,
+.next-btn {
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s ease;
+}
+
+#current-location-btn:hover,
+.next-btn:hover {
+  opacity: 0.9;
+}
+
+.divider {
+  text-align: center;
+  color: wheat;
+  font-size: 1rem;
+}
+
+.input-container {
+  position: relative;
+}
+
+#suggestions {
+  width: 100%;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 999;
+}
+
+.suggestion-item {
+  padding: 12px;
+  border-radius: 12px;
+  background-color: #f3f4f6;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.suggestion-item:hover {
+  background-color: #e5e7eb;
+}
+
+#map {
+  width: 100%;
+  height: 300px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+#location-message {
+  color: wheat;
+  text-align: center;
+  min-height: 20px;
+}
+
+.location-card form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
