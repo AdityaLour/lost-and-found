@@ -130,7 +130,7 @@ async function createFoundItem(req, res) {
 
     req.session.foundItem = null;
 
-    return res.redirect("/");
+    return res.send("Found item Saved");
   } catch (error) {
     console.log(error);
 

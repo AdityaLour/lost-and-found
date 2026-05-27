@@ -2,71 +2,75 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>
     Lost Item
   </title>
-
   <link rel="stylesheet" href="/styles/show.css">
-
-  <style>
-    * {
-      overflow-x: hidden;
-    }
-  </style>
 </head>
 
 <body>
 
   <main class="show-page">
-
     <section class="show-card">
-
-      <img src="<%= lostItem.images[0] %>" alt="Lost Item">
+      <div class="show-image-section">
+        <img src="<%= lostItem.images[0] %>" alt="Lost Item">
+      </div>
 
       <div class="show-content">
+        <span class="show-category">
+          <%= lostItem.description.category %>
+        </span>
 
         <h1>
-          <%= lostItem.description.category %>
+          Lost Item
         </h1>
 
-        <p>
+        <p class="show-description">
           <%= lostItem.description.details %>
         </p>
 
         <div class="show-meta">
+          <div class="meta-box">
+            <p class="meta-title">
+              Lost Date
+            </p>
+            <p class="meta-value">
 
-          <span>
-            Lost On:
-            <%= new Date(
-              lostItem.description.lostDate
-            ).toDateString() %>
-          </span>
+              <%= new Date(
+                lostItem.description.lostDate
+              ).toDateString() %>
 
-          <span>
-            Location:
-            <%= lostItem.location.address %>
-          </span>
+            </p>
+          </div>
+          <div class="meta-box">
+            <p class="meta-title">
+              Location
+            </p>
 
+            <p class="meta-value">
+              <%= lostItem.location.address %>
+            </p>
+          </div>
         </div>
-
       </div>
-
     </section>
-    <% if (isOwner) { %>
+
+    <% if (
+      isOwner &&
+      possibleFinds.length > 0
+    ) { %>
 
     <section class="potential-finds-section">
 
       <h2>
         Potential Finds
       </h2>
+
       <div class="potential-finds-grid">
         <% possibleFinds.forEach((item) => { %>
-        <a href="/found/items/<%= item._id %>" class="potential-find-card">
+        <div class="potential-find-card">
           <img src="<%= item.images[0] %>" alt="Found Item">
           <div class="potential-find-content">
 
@@ -75,14 +79,22 @@
             </h3>
 
             <p>
-              <%= item.description.details.slice(0, 90) %>...
+              <%= item.description.details.slice(0, 100) %>...
             </p>
+            <span>
 
+              <%= new Date(
+                    item.description.lostDate
+                  ).toDateString() %>
+
+            </span>
           </div>
-        </a>
+        </div>
         <% }) %>
+
       </div>
     </section>
+
     <% } %>
 
   </main>
