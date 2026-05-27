@@ -23,8 +23,7 @@ async function saveLocation(req, res) {
     req.session.lostItem = {
       location: {
         address,
-        latitude,
-        longitude,
+        coordinates: [Number(longitude), Number(latitude)],
         source,
       },
     };
@@ -195,14 +194,23 @@ async function getSingleLostItem(req, res) {
     let possibleFinds = [];
 
     if (isOwner) {
-      const foundItems = await FoundItem.find();
+      const foundItems = await FoundItem.find({
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: lostItem.location.coordinates,
+            },
+            $maxDistance: 40000,
+          },
+        },
+      });
       const scoredFinds = foundItems.map((item) => {
         return {
           item,
           score: calculateMatchScore(lostItem, item),
         };
       });
-
       possibleFinds = scoredFinds
         .sort((a, b) => b.score - a.score)
         .slice(0, 6)

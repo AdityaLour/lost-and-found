@@ -24,8 +24,7 @@ async function saveLocation(req, res) {
     req.session.foundItem = {
       location: {
         address,
-        latitude,
-        longitude,
+        coordinates: [Number(longitude), Number(latitude)],
         source,
       },
     };

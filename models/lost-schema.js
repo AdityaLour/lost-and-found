@@ -15,13 +15,8 @@ const lostItemSchema = new Schema(
         required: true,
       },
 
-      latitude: {
-        type: Number,
-        required: true,
-      },
-
-      longitude: {
-        type: Number,
+      coordinates: {
+        type: [Number],
         required: true,
       },
 
@@ -56,5 +51,9 @@ const lostItemSchema = new Schema(
   },
   { timestamps: true },
 );
+
+lostItemSchema.index({
+  location: "2dsphere",
+});
 
 module.exports = mongoose.model("LostItem", lostItemSchema);
