@@ -178,3 +178,21 @@ button {
 
   border: 2px solid rgba(255, 255, 255, 0.12);
 }
+
+select,
+textarea,
+input[type="date"] {
+  width: 100%;
+
+  padding: 16px;
+
+  border: none;
+
+  outline: none;
+
+  border-radius: 14px;
+
+  font-size: 1rem;
+
+  font-family: sans-serif;
+}

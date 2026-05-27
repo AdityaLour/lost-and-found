@@ -6,6 +6,8 @@ const {
   saveLocation,
   getDescriptionPage,
   saveDescription,
+  getCategoryPage,
+  saveCategory,
   createLostItem,
 } = require("../controllers/lost-controller");
 
@@ -22,5 +24,8 @@ router.get("/image", (req, res) => {
 });
 
 router.post("/image", upload.array("images", 3), createLostItem);
+
+router.get("/category", getCategoryPage);
+router.post("/category", saveCategory);
 
 module.exports = router;

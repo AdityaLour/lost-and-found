@@ -3,12 +3,6 @@ const { Schema } = mongoose;
 
 const lostItemSchema = new Schema(
   {
-    type: {
-      type: String,
-      enum: ["lost", "found"],
-      required: true,
-    },
-
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -18,7 +12,6 @@ const lostItemSchema = new Schema(
     location: {
       address: {
         type: String,
-
         required: true,
       },
 

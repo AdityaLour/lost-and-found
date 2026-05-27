@@ -1,6 +1,5 @@
 const cloudinary = require("../config/cloudinary");
 const LostItem = require("../models/lost-schema");
-const streamifier = require("streamifier");
 
 async function getLocationPage(req, res) {
   try {
@@ -29,7 +28,7 @@ async function saveLocation(req, res) {
       },
     };
 
-    return res.redirect("/lost/description");
+    return res.redirect("/lost/category");
   } catch (error) {
     console.log(error);
     return res.status(500).send("Server failed to respond");
@@ -45,12 +44,45 @@ async function getDescriptionPage(req, res) {
   }
 }
 
-async function saveDescription(req, res) {
-  const { category, details, lostDate } = req.body;
+async function getCategoryPage(req, res) {
+  try {
+    return res.render("lost/category");
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).send("Server failed");
+  }
+}
+
+async function saveCategory(req, res) {
+  const { category } = req.body;
 
   try {
+    if (!category) {
+      return res.status(400).send("Please select category");
+    }
+
+    req.session.lostItem.category = category;
+
+    console.log(req.session.lostItem);
+
+    return res.redirect("/lost/description");
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).send("Server failed");
+  }
+}
+
+async function saveDescription(req, res) {
+  const { details, lostDate } = req.body;
+
+  try {
+    if (new Date(lostDate) > new Date()) {
+      return res.status(400).send("Invalid lost date");
+    }
     req.session.lostItem.description = {
-      category,
+      category: req.session.lostItem.category,
 
       details: details.trim(),
 
@@ -109,4 +141,6 @@ module.exports = {
   getDescriptionPage,
   saveDescription,
   createLostItem,
+  getCategoryPage,
+  saveCategory,
 };

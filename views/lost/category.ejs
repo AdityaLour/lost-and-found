@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Lost Item Category
+  </title>
+  <link rel="stylesheet" href="/styles/location.css">
+</head>
+
+<body>
+
+  <main class="location-page">
+    <section class="location-card">
+      <form action="/lost/category" method="post">
+
+        <h1>
+          Select Item Category
+        </h1>
+
+        <div class="input-container">
+
+          <select name="category" id="category" required>
+
+            <option value="">
+              Select Category
+            </option>
+
+            <option value="Electronics">
+              Electronics
+            </option>
+
+            <option value="Wallet">
+              Wallet
+            </option>
+
+            <option value="Keys">
+              Keys
+            </option>
+
+            <option value="Documents">
+              Documents
+            </option>
+
+            <option value="Clothing">
+              Clothing
+            </option>
+
+            <option value="Accessories">
+              Accessories
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+          </select>
+        </div>
+
+        <button type="submit" class="next-btn">
+          Next
+        </button>
+      </form>
+    </section>
+  </main>
+
+</body>
+
+</html>

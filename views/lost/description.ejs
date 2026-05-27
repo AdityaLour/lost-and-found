@@ -22,50 +22,11 @@
         </h1>
 
         <div class="input-container">
-          <select name="category" id="category" required>
-
-            <option value="">
-              Select Category
-            </option>
-
-            <option value="Electronics">
-              Electronics
-            </option>
-
-            <option value="Wallet">
-              Wallet
-            </option>
-
-            <option value="Keys">
-              Keys
-            </option>
-
-            <option value="Documents">
-              Documents
-            </option>
-
-            <option value="Clothing">
-              Clothing
-            </option>
-
-            <option value="Accessories">
-              Accessories
-            </option>
-
-            <option value="Other">
-              Other
-            </option>
-
-          </select>
-
-        </div>
-
-        <div class="input-container">
           <textarea name="details" id="description" placeholder="Describe the lost item..." rows="6" required></textarea>
         </div>
 
         <div class="input-container">
-          <input type="date" name="lostDate" id="lostDate" required>
+          <input type="date" name="lostDate" id="lostDate" max="<%= new Date().toISOString().split('T')[0] %>" required>
         </div>
 
         <button type="submit" class="next-btn">
