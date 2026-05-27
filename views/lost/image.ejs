@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    Upload Images
+  </title>
+  <link rel="stylesheet" href="/styles/location.css">
+  <script src="/scripts/image.js" defer></script>
+</head>
+
+<body>
+  <main class="location-page">
+    <section class="location-card">
+      <form action="/lost/image" method="post" enctype="multipart/form-data">
+
+        <h1>
+          Upload Item Images
+        </h1>
+
+        <div class="input-container">
+          <input type="file" name="images" id="images" accept="image/*" multiple required>
+          <div id="preview-container"></div>
+        </div>
+
+        <p id="location-message">
+          Minimum 1 image • Maximum 3 images • 10MB each
+        </p>
+        <button type="submit" class="next-btn">
+          Submit Lost Item
+        </button>
+      </form>
+
+    </section>
+  </main>
+</body>
+
+</html>

@@ -1,3 +1,7 @@
+const cloudinary = require("../config/cloudinary");
+const LostItem = require("../models/lost-schema");
+const streamifier = require("streamifier");
+
 async function getLocationPage(req, res) {
   try {
     return res.render("lost/location", {
@@ -25,7 +29,6 @@ async function saveLocation(req, res) {
       },
     };
 
-    console.log(req.session.lostItem);
     return res.redirect("/lost/description");
   } catch (error) {
     console.log(error);
@@ -43,26 +46,62 @@ async function getDescriptionPage(req, res) {
 }
 
 async function saveDescription(req, res) {
-  const { title, category, description, lostDate } = req.body;
+  const { title, category, details, lostDate } = req.body;
 
   try {
-    req.session.lostItem = {
-      ...req.session.lostItem,
+    req.session.lostItem.description = {
+      title: title.trim(),
 
-      description: {
-        title,
-        category,
-        details: description,
-        lostDate,
-      },
+      category,
+
+      details: details.trim(),
+
+      lostDate,
     };
-    console.log(req.session.lostItem);
 
     return res.redirect("/lost/image");
   } catch (error) {
     console.log(error);
 
-    return res.status(500).send("Server failed to respond");
+    return res.status(500).send("Server failed");
+  }
+}
+
+async function createLostItem(req, res) {
+  try {
+    const imageUrls = [];
+
+    for (const file of req.files) {
+      const base64 = `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+
+      const result = await cloudinary.uploader.upload(
+        base64,
+
+        {
+          folder: "lost-items",
+        },
+      );
+
+      imageUrls.push(result.secure_url);
+    }
+
+    const finalLostItem = await LostItem.create({
+      user: req.user._id,
+
+      location: req.session.lostItem.location,
+
+      description: req.session.lostItem.description,
+
+      images: imageUrls,
+    });
+
+    return res.send("DB SUCCESS");
+  } catch (error) {
+    console.log("FULL ERROR:");
+
+    console.log(error);
+
+    return res.status(500).send("DB FAILED");
   }
 }
 
@@ -71,4 +110,5 @@ module.exports = {
   saveLocation,
   getDescriptionPage,
   saveDescription,
+  createLostItem,
 };

@@ -158,3 +158,23 @@ textarea,
 button {
   font-family: inherit;
 }
+
+#preview-container {
+  margin-top: 18px;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 12px;
+}
+
+.preview-image {
+  width: 90px;
+  height: 90px;
+
+  object-fit: cover;
+
+  border-radius: 14px;
+
+  border: 2px solid rgba(255, 255, 255, 0.12);
+}
