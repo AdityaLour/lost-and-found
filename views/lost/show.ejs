@@ -57,6 +57,33 @@
       </div>
 
     </section>
+    <% if (isOwner) { %>
+
+    <section class="potential-finds-section">
+
+      <h2>
+        Potential Finds
+      </h2>
+      <div class="potential-finds-grid">
+        <% possibleFinds.forEach((item) => { %>
+        <a href="/found/items/<%= item._id %>" class="potential-find-card">
+          <img src="<%= item.images[0] %>" alt="Found Item">
+          <div class="potential-find-content">
+
+            <h3>
+              <%= item.description.category %>
+            </h3>
+
+            <p>
+              <%= item.description.details.slice(0, 90) %>...
+            </p>
+
+          </div>
+        </a>
+        <% }) %>
+      </div>
+    </section>
+    <% } %>
 
   </main>
 

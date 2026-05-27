@@ -1,5 +1,6 @@
 const cloudinary = require("../config/cloudinary");
 const LostItem = require("../models/lost-schema");
+const FoundItem = require("../models/found-schema");
 
 async function getLocationPage(req, res) {
   try {
@@ -157,8 +158,18 @@ async function getSingleLostItem(req, res) {
     if (!lostItem) {
       return res.status(404).send("Lost item not found");
     }
+    const isOwner = req.user && lostItem.user.equals(req.user._id);
 
-    return res.render("lost/show", { lostItem });
+    let possibleFinds = [];
+    if (isOwner) {
+      possibleFinds = await FoundItem.find()
+        .sort({
+          createdAt: -1,
+        })
+        .limit(6);
+    }
+
+    return res.render("lost/show", { lostItem, isOwner });
   } catch (error) {
     console.log(error);
     return res.status(500).send("Server failed to respond");
