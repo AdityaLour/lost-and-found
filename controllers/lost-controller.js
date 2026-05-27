@@ -46,12 +46,10 @@ async function getDescriptionPage(req, res) {
 }
 
 async function saveDescription(req, res) {
-  const { title, category, details, lostDate } = req.body;
+  const { category, details, lostDate } = req.body;
 
   try {
     req.session.lostItem.description = {
-      title: title.trim(),
-
       category,
 
       details: details.trim(),
