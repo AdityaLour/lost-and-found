@@ -135,6 +135,21 @@ async function createLostItem(req, res) {
   }
 }
 
+async function getAllLostItems(req, res) {
+  try {
+    const lostItems = await LostItem.find().sort({
+      createdAt: -1,
+    });
+
+    return res.render("lost/lost-item", {
+      lostItems,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Server failed to respond");
+  }
+}
+
 module.exports = {
   getLocationPage,
   saveLocation,
@@ -143,4 +158,5 @@ module.exports = {
   createLostItem,
   getCategoryPage,
   saveCategory,
+  getAllLostItems,
 };

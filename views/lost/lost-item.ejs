@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Lost Items
+  </title>
+
+  <link rel="stylesheet" href="/styles/lost-item.css">
+
+</head>
+
+<body>
+
+  <main class="lost-items-page">
+
+    <h1>
+      Lost Items
+    </h1>
+
+    <section class="lost-items-grid">
+
+      <% lostItems.forEach((item) => { %>
+
+      <a href="/lost/items/<%= item._id %>" class="lost-item-card">
+
+        <img src="<%= item.images[0] %>" alt="Lost Item">
+
+        <div class="lost-item-content">
+
+          <h2>
+            <%= item.description.category %>
+          </h2>
+
+          <p>
+            <%= item.description.details.slice(0, 80) %>...
+          </p>
+
+          <span>
+            <%= new Date(item.description.lostDate).toDateString() %>
+          </span>
+
+        </div>
+
+      </a>
+
+      <% }) %>
+
+    </section>
+
+  </main>
+
+</body>
+
+</html>

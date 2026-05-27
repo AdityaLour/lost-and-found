@@ -9,6 +9,7 @@ const {
   getCategoryPage,
   saveCategory,
   createLostItem,
+  getAllLostItems,
 } = require("../controllers/lost-controller");
 
 const upload = require("../middlewares/upload");
@@ -27,5 +28,7 @@ router.post("/image", upload.array("images", 3), createLostItem);
 
 router.get("/category", getCategoryPage);
 router.post("/category", saveCategory);
+
+router.get("/items", getAllLostItems);
 
 module.exports = router;
