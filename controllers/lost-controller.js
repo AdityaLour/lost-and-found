@@ -150,6 +150,21 @@ async function getAllLostItems(req, res) {
   }
 }
 
+async function getSingleLostItem(req, res) {
+  try {
+    const lostItem = await LostItem.findById(req.params.id);
+
+    if (!lostItem) {
+      return res.status(404).send("Lost item not found");
+    }
+
+    return res.render("lost/show", { lostItem });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Server failed to respond");
+  }
+}
+
 module.exports = {
   getLocationPage,
   saveLocation,
@@ -159,4 +174,5 @@ module.exports = {
   getCategoryPage,
   saveCategory,
   getAllLostItems,
+  getSingleLostItem,
 };

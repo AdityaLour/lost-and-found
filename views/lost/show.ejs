@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Lost Item
+  </title>
+
+  <link rel="stylesheet" href="/styles/show.css">
+
+  <style>
+    * {
+      overflow-x: hidden;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="show-page">
+
+    <section class="show-card">
+
+      <img src="<%= lostItem.images[0] %>" alt="Lost Item">
+
+      <div class="show-content">
+
+        <h1>
+          <%= lostItem.description.category %>
+        </h1>
+
+        <p>
+          <%= lostItem.description.details %>
+        </p>
+
+        <div class="show-meta">
+
+          <span>
+            Lost On:
+            <%= new Date(
+              lostItem.description.lostDate
+            ).toDateString() %>
+          </span>
+
+          <span>
+            Location:
+            <%= lostItem.location.address %>
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</body>
+
+</html>
