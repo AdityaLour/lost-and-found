@@ -38,7 +38,37 @@ async function saveLocation(req, res) {
   }
 }
 
+async function getCategoryPage(req, res) {
+  try {
+    return res.render("found/category");
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).send("Server failed");
+  }
+}
+
+async function saveCategory(req, res) {
+  const { category } = req.body;
+
+  try {
+    if (!category) {
+      return res.status(400).send("Please select category");
+    }
+
+    req.session.foundItem.category = category;
+
+    return res.redirect("/found/description");
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).send("Server failed");
+  }
+}
+
 module.exports = {
   getLocationPage,
   saveLocation,
+  getCategoryPage,
+  saveCategory,
 };
