@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../middlewares/upload");
 
 const {
   getLocationPage,
@@ -8,6 +9,7 @@ const {
   saveCategory,
   getDescriptionPage,
   saveDescription,
+  createFoundItem,
 } = require("../controllers/found-controller");
 
 router.get("/location", getLocationPage);
@@ -18,5 +20,11 @@ router.post("/category", saveCategory);
 
 router.get("/description", getDescriptionPage);
 router.post("/description", saveDescription);
+
+router.get("/image", (req, res) => {
+  res.render("found/image");
+});
+
+router.post("/image", upload.array("images", 3), createFoundItem);
 
 module.exports = router;

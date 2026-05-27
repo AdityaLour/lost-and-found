@@ -66,9 +66,84 @@ async function saveCategory(req, res) {
   }
 }
 
+async function getDescriptionPage(req, res) {
+  try {
+    return res.render("found/description", {
+      title: "Found Item Description",
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).send("Server failed to respond");
+  }
+}
+
+async function saveDescription(req, res) {
+  const { details, lostDate } = req.body;
+
+  try {
+    if (new Date(lostDate) > new Date()) {
+      return res.status(400).send("Invalid found date");
+    }
+
+    req.session.foundItem.description = {
+      category: req.session.foundItem.category,
+      details: details.trim(),
+      lostDate,
+    };
+
+    return res.redirect("/found/image");
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).send("Server failed");
+  }
+}
+
+async function createFoundItem(req, res) {
+  try {
+    const imageUrls = [];
+
+    for (const file of req.files) {
+      const base64 = `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+
+      const result = await cloudinary.uploader.upload(
+        base64,
+
+        {
+          folder: "found-items",
+        },
+      );
+
+      imageUrls.push(result.secure_url);
+    }
+
+    await FoundItem.create({
+      user: req.user._id,
+
+      location: req.session.foundItem.location,
+
+      description: req.session.foundItem.description,
+
+      images: imageUrls,
+    });
+
+    req.session.foundItem = null;
+
+    return res.redirect("/");
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).send("DB FAILED");
+  }
+}
+
 module.exports = {
   getLocationPage,
   saveLocation,
   getCategoryPage,
   saveCategory,
+  getDescriptionPage,
+  saveDescription,
+  createFoundItem,
 };
