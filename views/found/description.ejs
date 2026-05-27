@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    Lost Item Description
+  </title>
+  <link rel="stylesheet" href="/styles/location.css">
+
+</head>
+
+<body>
+
+  <main class="location-page">
+    <section class="location-card">
+      <form action="/lost/description" method="post">
+
+        <h1>
+          tell us about it a bit more
+        </h1>
+
+        <div class="input-container">
+          <input type="text" name="title" id="title" placeholder="Item title" required>
+        </div>
+
+        <div class="input-container">
+          <select name="category" id="category" required>
+
+            <option value="">
+              Select Category
+            </option>
+
+            <option value="Electronics">
+              Electronics
+            </option>
+
+            <option value="Wallet">
+              Wallet
+            </option>
+
+            <option value="Keys">
+              Keys
+            </option>
+
+            <option value="Documents">
+              Documents
+            </option>
+
+            <option value="Clothing">
+              Clothing
+            </option>
+
+            <option value="Accessories">
+              Accessories
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="input-container">
+          <textarea name="details" id="description" placeholder="Describe the lost item..." rows="6" required></textarea>
+        </div>
+
+        <div class="input-container">
+          <input type="date" name="lostDate" id="lostDate" required>
+        </div>
+
+        <button type="submit" class="next-btn">
+          Next
+        </button>
+      </form>
+    </section>
+  </main>
+</body>
+
+</html>
