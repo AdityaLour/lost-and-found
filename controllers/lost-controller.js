@@ -154,24 +154,73 @@ async function getAllLostItems(req, res) {
 async function getSingleLostItem(req, res) {
   try {
     const lostItem = await LostItem.findById(req.params.id);
-
     if (!lostItem) {
       return res.status(404).send("Lost item not found");
     }
+
     const isOwner = req.user && lostItem.user.equals(req.user._id);
 
-    let possibleFinds = [];
-    if (isOwner) {
-      possibleFinds = await FoundItem.find()
-        .sort({
-          createdAt: -1,
-        })
-        .limit(6);
+    function calculateMatchScore(lostItem, foundItem) {
+      let score = 0;
+
+      const lostDetails = lostItem.description.details.toLowerCase();
+      const foundDetails = foundItem.description.details.toLowerCase();
+
+      const lostWords = lostDetails.split(" ");
+      const foundWords = foundDetails.split(" ");
+
+      for (const word of lostWords) {
+        if (foundWords.includes(word) && word.length > 3) {
+          score += 3;
+        }
+      }
+
+      if (lostItem.description.category === foundItem.description.category) {
+        score += 5;
+      }
+
+      const lostDate = new Date(lostItem.description.lostDate);
+      const foundDate = new Date(foundItem.description.lostDate);
+
+      const dateDifference = Math.abs(foundDate - lostDate);
+      const daysDifference = dateDifference / (1000 * 60 * 60 * 24);
+
+      if (daysDifference <= 3) {
+        score += 3;
+      }
+
+      return score;
     }
 
-    return res.render("lost/show", { lostItem, isOwner });
+    let possibleFinds = [];
+
+    if (isOwner) {
+      const foundItems = await FoundItem.find();
+      const scoredFinds = foundItems.map((item) => {
+        return {
+          item,
+          score: calculateMatchScore(lostItem, item),
+        };
+      });
+
+      possibleFinds = scoredFinds
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 6)
+        .map((entry) => entry.item);
+    }
+
+    return res.render(
+      "lost/show",
+
+      {
+        lostItem,
+        isOwner,
+        possibleFinds,
+      },
+    );
   } catch (error) {
     console.log(error);
+
     return res.status(500).send("Server failed to respond");
   }
 }
