@@ -5,6 +5,7 @@ const path = require("path");
 const connectDb = require("./db/database");
 const authRoutes = require("./routes/auth-routes");
 const lostRoutes = require("./routes/lost-router");
+const foundRoutes = require("./routes/found-routes");
 const sessionConfig = require("./config/session");
 const passport = require("./config/passport");
 
@@ -21,6 +22,7 @@ app.use(passport.session());
 
 app.use("/auth", authRoutes);
 app.use("/lost", lostRoutes);
+app.use("/found", foundRoutes);
 
 connectDb().then(() => {
   app.listen(process.env.PORT, () => {
