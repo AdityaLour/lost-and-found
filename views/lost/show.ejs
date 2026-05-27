@@ -63,17 +63,19 @@
     ) { %>
 
     <section class="potential-finds-section">
-
       <h2>
         Potential Finds
       </h2>
-
       <div class="potential-finds-grid">
-        <% possibleFinds.forEach((item) => { %>
+        <% possibleFinds.forEach((entry) => {
+
+  const item = entry.item;
+
+%>
+
         <div class="potential-find-card">
           <img src="<%= item.images[0] %>" alt="Found Item">
           <div class="potential-find-content">
-
             <h3>
               <%= item.description.category %>
             </h3>
@@ -81,15 +83,44 @@
             <p>
               <%= item.description.details.slice(0, 100) %>...
             </p>
+
             <span>
 
               <%= new Date(
-                    item.description.lostDate
-                  ).toDateString() %>
+        item.description.lostDate
+      ).toDateString() %>
 
             </span>
+
+            <p>
+              Match Score:
+              <%= entry.score %>
+            </p>
+
+            <p>
+
+              Found At:
+
+              <%= item.location.address %>
+
+            </p>
+
+            <p>
+
+              Distance:
+
+              <%= (
+    item.distance / 1000
+  ).toFixed(1) %>
+
+              km away
+
+            </p>
+
           </div>
+
         </div>
+
         <% }) %>
 
       </div>

@@ -22,8 +22,9 @@ async function saveLocation(req, res) {
 
     req.session.lostItem = {
       location: {
-        address,
+        type: "Point",
         coordinates: [Number(longitude), Number(latitude)],
+        address,
         source,
       },
     };
@@ -162,6 +163,18 @@ async function getSingleLostItem(req, res) {
     function calculateMatchScore(lostItem, foundItem) {
       let score = 0;
 
+      if (foundItem.distance <= 2000) {
+        score += 10;
+      } else if (foundItem.distance <= 5000) {
+        score += 7;
+      } else if (foundItem.distance <= 10000) {
+        score += 5;
+      } else if (foundItem.distance <= 20000) {
+        score += 3;
+      } else {
+        score += 1;
+      }
+
       const lostDetails = lostItem.description.details.toLowerCase();
       const foundDetails = foundItem.description.details.toLowerCase();
 
@@ -194,17 +207,20 @@ async function getSingleLostItem(req, res) {
     let possibleFinds = [];
 
     if (isOwner) {
-      const foundItems = await FoundItem.find({
-        location: {
-          $near: {
-            $geometry: {
+      const foundItems = await FoundItem.aggregate([
+        {
+          $geoNear: {
+            near: {
               type: "Point",
               coordinates: lostItem.location.coordinates,
             },
-            $maxDistance: 40000,
+
+            distanceField: "distance",
+            maxDistance: 40000,
+            spherical: true,
           },
         },
-      });
+      ]);
       const scoredFinds = foundItems.map((item) => {
         return {
           item,
@@ -212,9 +228,9 @@ async function getSingleLostItem(req, res) {
         };
       });
       possibleFinds = scoredFinds
+        .filter((entry) => entry.score >= 10)
         .sort((a, b) => b.score - a.score)
-        .slice(0, 6)
-        .map((entry) => entry.item);
+        .slice(0, 6);
     }
 
     return res.render(

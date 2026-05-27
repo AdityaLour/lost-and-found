@@ -10,13 +10,20 @@ const lostItemSchema = new Schema(
     },
 
     location: {
-      address: {
+      type: {
         type: String,
+        enum: ["Point"],
         required: true,
+        default: "Point",
       },
 
       coordinates: {
         type: [Number],
+        required: true,
+      },
+
+      address: {
+        type: String,
         required: true,
       },
 
