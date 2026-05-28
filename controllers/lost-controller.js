@@ -1,6 +1,8 @@
 const cloudinary = require("../config/cloudinary");
 const LostItem = require("../models/lost-schema");
 const FoundItem = require("../models/found-schema");
+const compareItems = require("../services/compare-items");
+const Match = require("../models/match-schema");
 
 async function getLocationPage(req, res) {
   try {
@@ -200,7 +202,6 @@ async function getSingleLostItem(req, res) {
       if (daysDifference <= 3) {
         score += 3;
       }
-
       return score;
     }
 
@@ -221,27 +222,81 @@ async function getSingleLostItem(req, res) {
           },
         },
       ]);
+
       const scoredFinds = foundItems.map((item) => {
         return {
           item,
           score: calculateMatchScore(lostItem, item),
         };
       });
+
       possibleFinds = scoredFinds
         .filter((entry) => entry.score >= 10)
         .sort((a, b) => b.score - a.score)
         .slice(0, 6);
     }
 
-    return res.render(
-      "lost/show",
+    possibleFinds = await Promise.all(
+      possibleFinds.map(async (entry) => {
+        const existingMatch = await Match.findOne({
+          lostItem: lostItem._id,
+          foundItem: entry.item._id,
+        });
 
-      {
-        lostItem,
-        isOwner,
-        possibleFinds,
-      },
+        if (existingMatch) {
+          return {
+            ...entry,
+            semanticScore: existingMatch.semanticScore,
+            semanticReason: existingMatch.semanticReason,
+          };
+        }
+
+        const semanticResult = await compareItems(
+          lostItem.description.details,
+          entry.item.description.details,
+        );
+
+        await Match.create({
+          lostItem: lostItem._id,
+          foundItem: entry.item._id,
+          semanticScore: semanticResult.matchScore,
+          semanticReason: semanticResult.reason,
+        });
+
+        return {
+          ...entry,
+          semanticScore: semanticResult.matchScore,
+          semanticReason: semanticResult.reason,
+        };
+      }),
     );
+
+    possibleFinds = possibleFinds
+      .filter((entry) => {
+        if (entry.semanticScore === null) {
+          return true;
+        }
+        return entry.semanticScore >= 40;
+      })
+
+      .map((entry) => {
+        let finalScore = entry.score;
+        if (entry.semanticScore !== null) {
+          finalScore = entry.score * 0.4 + entry.semanticScore * 0.6;
+        }
+
+        return {
+          ...entry,
+          finalScore,
+        };
+      })
+      .sort((a, b) => b.finalScore - a.finalScore);
+
+    return res.render("lost/show", {
+      lostItem,
+      isOwner,
+      possibleFinds,
+    });
   } catch (error) {
     console.log(error);
 
