@@ -10,6 +10,8 @@ const {
   getDescriptionPage,
   saveDescription,
   createFoundItem,
+  getAllFoundItems,
+  getSingleFoundItem,
 } = require("../controllers/found-controller");
 
 router.get("/location", getLocationPage);
@@ -26,5 +28,8 @@ router.get("/image", (req, res) => {
 });
 
 router.post("/image", upload.array("images", 3), createFoundItem);
+
+router.get("/items", getAllFoundItems);
+router.get("/items/:id", getSingleFoundItem);
 
 module.exports = router;

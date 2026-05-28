@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Found Items
+  </title>
+
+  <link rel="stylesheet" href="/styles/found-index.css">
+
+</head>
+
+<body>
+
+  <main class="found-items-page">
+
+    <h1>
+      Found Items
+    </h1>
+
+    <section class="found-items-grid">
+
+      <% foundItems.forEach((item) => { %>
+
+      <a href="/found/items/<%= item._id %>" class="found-item-card">
+
+        <img src="<%= item.images[0] %>" alt="Found Item">
+
+        <div class="found-item-content">
+
+          <span class="category">
+
+            <%= item.description.category %>
+
+          </span>
+
+          <p>
+
+            <%= item.description.details
+                .slice(0, 100) %>...
+
+          </p>
+
+          <span class="date">
+
+            <%= new Date(
+                item.description.lostDate
+              ).toDateString() %>
+
+          </span>
+
+        </div>
+
+      </a>
+
+      <% }) %>
+
+    </section>
+
+  </main>
+
+</body>
+
+</html>

@@ -138,6 +138,40 @@ async function createFoundItem(req, res) {
   }
 }
 
+async function getAllFoundItems(req, res) {
+  try {
+    const foundItems = await FoundItem.find().sort({
+      createdAt: -1,
+    });
+
+    return res.render("found/index", {
+      foundItems,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).send("Server failed to respond");
+  }
+}
+
+async function getSingleFoundItem(req, res) {
+  try {
+    const foundItem = await FoundItem.findById(req.params.id);
+
+    if (!foundItem) {
+      return res.status(404).send("Found item not found");
+    }
+
+    return res.render("found/show", {
+      foundItem,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).send("Server failed to respond");
+  }
+}
+
 module.exports = {
   getLocationPage,
   saveLocation,
@@ -146,4 +180,6 @@ module.exports = {
   getDescriptionPage,
   saveDescription,
   createFoundItem,
+  getAllFoundItems,
+  getSingleFoundItem,
 };

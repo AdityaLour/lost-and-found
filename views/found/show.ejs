@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Found Item
+  </title>
+
+  <link rel="stylesheet" href="/styles/show.css">
+
+</head>
+
+<body>
+
+  <main class="show-page">
+
+    <section class="show-card">
+
+      <div class="show-image-section">
+
+        <img src="<%= foundItem.images[0] %>" alt="Found Item">
+
+      </div>
+
+      <div class="show-content">
+
+        <span class="show-category">
+
+          <%= foundItem.description.category %>
+
+        </span>
+
+        <h1>
+          Found Item
+        </h1>
+
+        <p class="show-description">
+
+          <%= foundItem.description.details %>
+
+        </p>
+
+        <div class="show-meta">
+
+          <div class="meta-box">
+
+            <p class="meta-title">
+              Found Date
+            </p>
+
+            <p class="meta-value">
+
+              <%= new Date(
+                foundItem.description.lostDate
+              ).toDateString() %>
+
+            </p>
+
+          </div>
+
+          <div class="meta-box">
+
+            <p class="meta-title">
+              Found At
+            </p>
+
+            <p class="meta-value">
+
+              <%= foundItem.location.address %>
+
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</body>
+
+</html>

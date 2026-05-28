@@ -7,6 +7,12 @@
   <title>
     Lost Item
   </title>
+  <style>
+    a {
+      text-decoration: none;
+      color: black;
+    }
+  </style>
   <link rel="stylesheet" href="/styles/show.css">
 </head>
 
@@ -73,7 +79,7 @@
 
 %>
 
-        <div class="potential-find-card">
+        <a href="/found/items/<%= item._id %>" class="potential-find-card">
           <img src="<%= item.images[0] %>" alt="Found Item">
           <div class="potential-find-content">
             <h3>
@@ -127,7 +133,7 @@
 
           </div>
 
-        </div>
+        </a>
 
         <% }) %>
 
