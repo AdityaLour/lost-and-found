@@ -101,6 +101,9 @@ async function saveDescription(req, res) {
 }
 
 async function createFoundItem(req, res) {
+  if (!req.session.foundItem) {
+    return res.redirect("/found/location");
+  }
   try {
     const imageUrls = [];
 
@@ -118,8 +121,8 @@ async function createFoundItem(req, res) {
       imageUrls.push(result.secure_url);
     }
 
-    await FoundItem.create({
-      user: req.user._id,
+    const foundItem = await FoundItem.create({
+      user: req.user.id,
 
       location: req.session.foundItem.location,
 
@@ -130,7 +133,7 @@ async function createFoundItem(req, res) {
 
     req.session.foundItem = null;
 
-    return res.send("Found item Saved");
+    return res.redirect(`/found/items/${foundItem._id}`);
   } catch (error) {
     console.log(error);
 

@@ -14,6 +14,9 @@ const matchSchema = new mongoose.Schema(
 
     semanticScore: Number,
     semanticReason: String,
+
+    imageScore: Number,
+    imageReason: String,
   },
 
   {

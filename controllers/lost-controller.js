@@ -3,6 +3,7 @@ const LostItem = require("../models/lost-schema");
 const FoundItem = require("../models/found-schema");
 const compareItems = require("../services/compare-items");
 const Match = require("../models/match-schema");
+const compareImages = require("../services/compare-images");
 
 async function getLocationPage(req, res) {
   try {
@@ -160,7 +161,7 @@ async function getSingleLostItem(req, res) {
       return res.status(404).send("Lost item not found");
     }
 
-    const isOwner = req.user && lostItem.user.equals(req.user._id);
+    const isOwner = req.user && lostItem.user.equals(req.user.id);
 
     function calculateMatchScore(lostItem, foundItem) {
       let score = 0;
@@ -234,6 +235,14 @@ async function getSingleLostItem(req, res) {
         .filter((entry) => entry.score >= 10)
         .sort((a, b) => b.score - a.score)
         .slice(0, 6);
+
+      console.log(
+        scoredFinds.map((entry) => ({
+          score: entry.score,
+          details: entry.item.description.details,
+          distance: entry.item.distance,
+        })),
+      );
     }
 
     possibleFinds = await Promise.all(
@@ -248,6 +257,9 @@ async function getSingleLostItem(req, res) {
             ...entry,
             semanticScore: existingMatch.semanticScore,
             semanticReason: existingMatch.semanticReason,
+
+            imageScore: existingMatch.imageScore,
+            imageReason: existingMatch.imageReason,
           };
         }
 
@@ -256,17 +268,28 @@ async function getSingleLostItem(req, res) {
           entry.item.description.details,
         );
 
+        const imageResult = await compareImages(
+          lostItem.images[0],
+          entry.item.images[0],
+        );
+
         await Match.create({
           lostItem: lostItem._id,
           foundItem: entry.item._id,
           semanticScore: semanticResult.matchScore,
           semanticReason: semanticResult.reason,
+
+          imageScore: imageResult.imageScore,
+          imageReason: imageResult.reason,
         });
 
         return {
           ...entry,
           semanticScore: semanticResult.matchScore,
           semanticReason: semanticResult.reason,
+
+          imageScore: imageResult.imageScore,
+          imageReason: imageResult.reason,
         };
       }),
     );
@@ -276,21 +299,29 @@ async function getSingleLostItem(req, res) {
         if (entry.semanticScore === null) {
           return true;
         }
+
         return entry.semanticScore >= 40;
       })
-
       .map((entry) => {
-        let finalScore = entry.score;
-        if (entry.semanticScore !== null) {
-          finalScore = entry.score * 0.4 + entry.semanticScore * 0.6;
+        const manualPercentage = Math.min((entry.score / 30) * 100, 100);
+
+        let finalScore;
+
+        if (entry.imageScore === null) {
+          finalScore = manualPercentage * 0.5 + entry.semanticScore * 0.5;
+        } else {
+          finalScore =
+            manualPercentage * 0.2 +
+            entry.semanticScore * 0.4 +
+            entry.imageScore * 0.4;
         }
 
         return {
           ...entry,
-          finalScore,
+          matchPercentage: Math.round(finalScore),
         };
       })
-      .sort((a, b) => b.finalScore - a.finalScore);
+      .sort((a, b) => b.matchPercentage - a.matchPercentage);
 
     return res.render("lost/show", {
       lostItem,

@@ -23,7 +23,7 @@
 
       <div class="show-image-section">
 
-        <img src="<%= foundItem.images[0] %>" alt="Found Item">
+        <img src="<%= foundItem.images[0] || '/images/placeholder.png' %>" alt="Found Item">
 
       </div>
 
@@ -56,7 +56,7 @@
             <p class="meta-value">
 
               <%= new Date(
-                foundItem.description.lostDate
+                foundItem.description.foundDate
               ).toDateString() %>
 
             </p>

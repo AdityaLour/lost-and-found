@@ -11,12 +11,20 @@ const passport = require("./config/passport");
 
 const app = express();
 
+app.use(sessionConfig);
+app.use((req, res, next) => {
+  if (req.session.user) {
+    req.user = req.session.user;
+  }
+  res.locals.currentUser = req.user;
+  next();
+});
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(sessionConfig);
 app.use(passport.initialize());
 app.use(passport.session());
 
