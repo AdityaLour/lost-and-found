@@ -8,14 +8,14 @@
   <title>
     Lost Item Category
   </title>
-  <link rel="stylesheet" href="/styles/location.css">
+  <link rel="stylesheet" href="/styles/category.css">
 </head>
 
 <body>
 
   <main class="location-page">
     <section class="location-card">
-      <form action="/found/category" method="post">
+      <form action="/found/category" method="post" class="card">
 
         <h1>
           What did you find ?
@@ -23,40 +23,12 @@
 
         <div class="input-container">
 
-          <select name="category" id="category" required>
-
-            <option value="">
-              Select Category
-            </option>
-
-            <option value="Electronics">
-              Electronics
-            </option>
-
-            <option value="Wallet">
-              Wallet
-            </option>
-
-            <option value="Keys">
-              Keys
-            </option>
-
-            <option value="Documents">
-              Documents
-            </option>
-
-            <option value="Clothing">
-              Clothing
-            </option>
-
-            <option value="Accessories">
-              Accessories
-            </option>
-
-            <option value="Other">
-              Other
-            </option>
-          </select>
+          <%- include(
+                "../partials/category-grid",
+                {
+                  action: "/found/category"
+                }
+              ) %>
         </div>
 
         <button type="submit" class="next-btn">

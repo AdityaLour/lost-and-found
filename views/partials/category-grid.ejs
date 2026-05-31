@@ -1,0 +1,195 @@
+<style>
+  .category-grid {
+    display: grid;
+
+    grid-template-columns:
+      repeat(5, 1fr);
+
+    gap: 22px;
+
+    margin-top: 40px;
+  }
+
+  .category-card {
+    cursor: pointer;
+  }
+
+  .category-card input {
+    display: none;
+  }
+
+  .category-content {
+    background: white;
+
+    border: 3px solid transparent;
+
+    border-radius: 24px;
+
+    padding:
+      42px 24px;
+
+    min-height: 140px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    font-size: 1.05rem;
+    font-weight: 700;
+
+    color: #111827;
+
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease,
+      background 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .category-card:hover .category-content {
+
+    transform: translateY(-5px);
+
+    border-color: #93c5fd;
+
+    box-shadow:
+      0 12px 28px rgba(0, 0, 0, 0.08);
+  }
+
+  .category-card input:checked+.category-content {
+
+    background: #2563eb;
+
+    color: white;
+
+    border-color: #1d4ed8;
+
+    transform: scale(1.03);
+
+    box-shadow:
+      0 16px 34px rgba(37, 99, 235, 0.35);
+  }
+
+  form button {
+    margin-top: 36px;
+
+    border: none;
+
+    background: #2563eb;
+
+    color: white;
+
+    padding:
+      14px 32px;
+
+    border-radius: 16px;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+      transform 0.2s ease,
+      background 0.2s ease;
+  }
+
+  form button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-2px);
+  }
+</style>
+<div class="category-grid">
+
+  <label class="category-card">
+
+    <input type="radio" name="category" value="Electronics" required>
+
+    <div class="category-content">
+      Electronics
+    </div>
+
+  </label>
+
+  <label class="category-card">
+
+    <input type="radio" name="category" value="Wallet">
+
+    <div class="category-content">
+      Wallet
+    </div>
+
+  </label>
+
+  <label class="category-card">
+
+    <input type="radio" name="category" value="Keys">
+
+    <div class="category-content">
+      Keys
+    </div>
+  </label>
+
+  <label class="category-card">
+
+    <input type="radio" name="category" value="Bags">
+
+    <div class="category-content">
+      Bags
+    </div>
+
+  </label>
+
+  <label class="category-card">
+
+    <input type="radio" name="category" value="Documents">
+
+    <div class="category-content">
+      Documents
+    </div>
+  </label>
+
+  <label class="category-card">
+
+    <input type="radio" name="category" value="Jewellery">
+
+    <div class="category-content">
+      Jewellery
+    </div>
+
+  </label>
+
+  <label class="category-card">
+
+    <input type="radio" name="category" value="Accessories">
+
+    <div class="category-content">
+      Accessories
+    </div>
+
+  </label>
+
+  <label class="category-card">
+
+    <input type="radio" name="category" value="ID Cards">
+
+    <div class="category-content">
+      ID Cards
+    </div>
+
+  </label>
+
+  <label class="category-card">
+
+    <input type="radio" name="category" value="Others">
+
+    <div class="category-content">
+      Others
+    </div>
+
+  </label>
+
+</div>
