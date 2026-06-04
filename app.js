@@ -7,7 +7,6 @@ const authRoutes = require("./routes/auth-routes");
 const lostRoutes = require("./routes/lost-router");
 const foundRoutes = require("./routes/found-routes");
 const sessionConfig = require("./config/session");
-const passport = require("./config/passport");
 
 const app = express();
 
@@ -24,14 +23,15 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
-
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(express.json());
 
 app.use("/auth", authRoutes);
 app.use("/lost", lostRoutes);
 app.use("/found", foundRoutes);
 
+app.get("/test-session", (req, res) => {
+  res.json(req.session.user);
+});
 connectDb().then(() => {
   app.listen(process.env.PORT, () => {
     console.log(`Server is running on Port ${process.env.PORT}`);

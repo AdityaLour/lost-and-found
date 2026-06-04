@@ -1,168 +1,91 @@
 const User = require("../models/user-schema");
-const PendingUser = require("../models/pendingUser-schema");
-const bcrypt = require("bcrypt");
-const transporter = require("../config/mail");
-const PasswordReset = require("../models/passwordReset-schema");
+const admin = require("../config/firebase-admin");
 
-async function signUp(req, res) {
-  const { username, email, password, confirmPassword } = req.body;
-
+async function startSignUp(req, res) {
+  const { username, phoneNumber } = req.body;
   try {
-    if (!email.includes("@")) {
-      return res.status(400).json({
-        message: "Invalid Email format",
-      });
-    }
-
-    if (!username.trim()) {
+    if (!username || !username.trim()) {
       return res.status(400).json({
         message: "Please enter username",
       });
     }
 
-    const existingEmail = await User.findOne({
-      email: email.toLowerCase().trim(),
-    });
-
-    if (existingEmail) {
+    if (!phoneNumber || !/^\d{10}$/.test(phoneNumber.trim())) {
       return res.status(400).json({
-        message: "Email address in already in use",
+        message: "Enter a valid phone number",
       });
     }
 
-    const existingUsername = await User.findOne({
-      username: username.trim().toLowerCase(),
+    const existingUser = await User.findOne({
+      phoneNumber: phoneNumber.trim(),
     });
 
-    if (existingUsername) {
+    if (existingUser) {
       return res.status(400).json({
-        message: "Username already exist try a diffrent one",
+        message: "Account already exists",
       });
     }
 
-    if (password !== confirmPassword) {
-      return res.status(400).json({
-        message: "Passwords do not match",
-      });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    const existingPendingUser = await PendingUser.findOne({
-      email: email.toLowerCase().trim(),
-    });
-
-    if (existingPendingUser) {
-      return res.status(400).json({
-        message: "OTP already sent. Please verify your email.",
-      });
-    }
-
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = Date.now() + 5 * 60 * 1000;
-
-    await PendingUser.create({
-      username: username.trim().toLowerCase(),
-      email: email.trim().toLowerCase(),
-      password: hashedPassword,
-      otp: otp,
-      expiresAt: expiresAt,
-      lastOtpSentAt: Date.now(),
-    });
-
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email.trim().toLowerCase(),
-
-      subject: "Otp Verification",
-
-      text: `Your OTP is ${otp}`,
-    });
-    return res.redirect(
-      `/auth/verify?email=${encodeURIComponent(email.trim().toLowerCase())}`,
-    );
-  } catch (err) {
-    return res.status(500).json({ message: "Server failed to respond" });
-  }
-}
-
-async function login(req, res) {
-  const { email, password } = req.body;
-  try {
-    const userExist = await User.findOne({
-      email: email.toLowerCase().trim(),
-    });
-
-    if (!userExist) {
-      return res.status(401).json({
-        message: "No User found",
-      });
-    }
-
-    if (!userExist.password) {
-      return res.render("auth/get-started", {
-        title: "Welcome back!",
-        activeForm: "login",
-        errorMessage: "This account uses Google Sign-In",
-        successMessage: null,
-      });
-    }
-
-    const comparePassword = await bcrypt.compare(password, userExist.password);
-    if (!comparePassword) {
-      return res.status(401).json({
-        message: "Please enter the correct password",
-      });
-    }
-    req.session.user = {
-      id: userExist._id,
-      username: userExist.username,
+    req.session.pendingSignUp = {
+      username: username.trim(),
+      phoneNumber: phoneNumber.trim(),
     };
 
     return res.status(200).json({
-      message: "Logged in Successfully",
+      message: "SignUp initiated",
     });
   } catch (error) {
+    console.log(error);
+
     return res.status(500).json({
-      message: "Login failed, please try again",
+      message: "Server failed to respond",
     });
   }
 }
 
-async function verifyOtp(req, res) {
-  const { email, otp } = req.body;
+async function completeSignup(req, res) {
+  const { idToken } = req.body;
+  console.log("COMPLETE SIGNUP HIT");
+  console.log(req.body);
+  console.log(req.session.pendingSignUp);
   try {
-    const pendingUser = await PendingUser.findOne({
-      email: email.trim().toLowerCase(),
+    if (!idToken) {
+      return res.status(400).json({
+        message: "ID token required",
+      });
+    }
+
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+
+    if (!req.session.pendingSignUp) {
+      return res.status(400).json({
+        message: "No signup request found",
+      });
+    }
+
+    const { username, phoneNumber } = req.session.pendingSignUp;
+
+    const firebasePhone = decodedToken.phone_number;
+
+    if (firebasePhone !== `+91${phoneNumber}`) {
+      return res.status(400).json({
+        message: "Phone verification failed",
+      });
+    }
+
+    const existingUser = await User.findOne({
+      phoneNumber,
     });
 
-    if (!pendingUser) {
-      return res.status(404).json({
-        message: "No pending verification found",
-      });
-    }
-
-    if (pendingUser.expiresAt < Date.now()) {
-      await PendingUser.deleteOne({
-        email: email.toLowerCase().trim(),
-      });
-
+    if (existingUser) {
       return res.status(400).json({
-        message: "OTP expired",
-      });
-    }
-
-    if (pendingUser.otp.trim() !== otp) {
-      return res.status(400).json({
-        message: "Invalid OTP",
-        errorMessage: "Invalid OTP",
+        message: "Account already exists",
       });
     }
 
     const user = await User.create({
-      username: pendingUser.username,
-      email: pendingUser.email,
-      password: pendingUser.password,
+      username,
+      phoneNumber,
     });
 
     req.session.user = {
@@ -170,271 +93,115 @@ async function verifyOtp(req, res) {
       username: user.username,
     };
 
-    await PendingUser.deleteOne({
-      email: pendingUser.email,
-    });
+    delete req.session.pendingSignUp;
 
-    return res.status(201).json({
-      message: "Email verified successfully",
+    return res.status(200).json({
+      message: "Signup successful",
     });
   } catch (error) {
     console.log(error);
+
     return res.status(500).json({
       message: "Server failed to respond",
     });
   }
 }
 
-async function resendOtp(req, res) {
-  const { email } = req.body;
+async function startLogin(req, res) {
   try {
-    console.log("RESEND STARTED");
-    const pendingUser = await PendingUser.findOne({
-      email: email.trim().toLowerCase(),
-    });
+    const { phoneNumber } = req.body;
 
-    if (!pendingUser) {
-      return res.status(404).json({
-        message: "No pending verification Found",
-      });
-    }
-
-    const now = Date.now();
-    const diff = now - pendingUser.lastOtpSentAt;
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    if (diff < 30000) {
-      return res.render("auth/verify", {
-        title: "Verify Your email",
-        email,
-        successMessage: null,
-        errorMessage: "Please wait 30 seconds before requesting another OTP",
-      });
-    }
-
-    console.log("BEFORE EMAIL");
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: pendingUser.email,
-      subject: "OTP Verification",
-      text: `Your OTP is ${otp}`,
-    });
-    console.log("AFTER EMAIL");
-
-    pendingUser.otp = otp;
-    pendingUser.expiresAt = Date.now() + 5 * 60 * 1000;
-    pendingUser.lastOtpSentAt = Date.now();
-    await pendingUser.save();
-
-    return res.render("auth/verify", {
-      title: "Verify your email",
-      email,
-      successMessage: "OTP sent successfully",
-      errorMessage: null,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      message: "Server Failed to respond",
-    });
-  }
-}
-
-async function forgotPassword(req, res) {
-  const { email } = req.body;
-
-  try {
     const user = await User.findOne({
-      email: email.trim().toLowerCase(),
+      phoneNumber,
     });
 
     if (!user) {
-      return res.render("auth/forgot-password", {
-        title: "Forgot Password",
-        successMessage: null,
-        errorMessage: "No account found with this email",
+      return res.status(404).json({
+        message: "Account not found",
       });
     }
 
-    if (!user.password) {
-      return res.render("auth/forgot-password", {
-        title: "Forgot Password",
-        successMessage: null,
-        errorMessage: "This account uses Google Sign-In",
-      });
-    }
+    req.session.pendingLogin = {
+      phoneNumber,
+    };
 
-    const existingReset = await PasswordReset.findOne({
-      email: email.trim().toLowerCase(),
+    return res.status(200).json({
+      message: "OTP can be sent",
     });
-
-    if (existingReset) {
-      const diff = Date.now() - existingReset.lastOtpSentAt;
-
-      if (diff < 30000) {
-        return res.render("auth/forgot-password", {
-          title: "Forgot Password",
-          successMessage: null,
-          errorMessage: "Please wait before requesting another OTP",
-        });
-      }
-
-      await PasswordReset.deleteOne({
-        email: email.trim().toLowerCase(),
-      });
-    }
-
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    const expiresAt = Date.now() + 5 * 60 * 1000;
-
-    await PasswordReset.create({
-      email: email.trim().toLowerCase(),
-      otp,
-      expiresAt,
-      lastOtpSentAt: Date.now(),
-    });
-
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email.trim().toLowerCase(),
-      subject: "Password Reset OTP",
-      text: `Your OTP is ${otp}`,
-    });
-
-    return res.redirect(
-      `/auth/verify-reset?email=${encodeURIComponent(email.trim().toLowerCase())}`,
-    );
   } catch (error) {
     console.log(error);
-    return res.render("auth/forgot-password", {
-      title: "Forgot Password",
-      successMessage: null,
-      errorMessage: "Server failed to respond",
+
+    return res.status(500).json({
+      message: "Server failed to respond",
     });
   }
 }
 
-async function verifyResetOtp(req, res) {
-  const { email, otp } = req.body;
-
+async function completeLogin(req, res) {
   try {
-    const passwordReset = await PasswordReset.findOne({
-      email: email.trim().toLowerCase(),
+    const { idToken } = req.body;
+
+    if (!idToken) {
+      return res.status(400).json({
+        message: "ID token required",
+      });
+    }
+
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+
+    if (!req.session.pendingLogin) {
+      return res.status(400).json({
+        message: "Login session expired",
+      });
+    }
+
+    const { phoneNumber } = req.session.pendingLogin;
+
+    if (decodedToken.phone_number !== `+91${phoneNumber}`) {
+      return res.status(400).json({
+        message: "Phone verification failed",
+      });
+    }
+
+    const user = await User.findOne({
+      phoneNumber,
     });
 
-    if (!passwordReset) {
-      return res.render("auth/verify-reset", {
-        title: "Verify Reset OTP",
-        email,
-        successMessage: null,
-        errorMessage: "No reset request found",
+    if (!user) {
+      return res.status(404).json({
+        message: "Account not found",
       });
     }
 
-    if (passwordReset.expiresAt < Date.now()) {
-      await PasswordReset.deleteOne({
-        email: email.trim().toLowerCase(),
-      });
+    req.session.user = {
+      id: user._id,
+      username: user.username,
+    };
 
-      return res.render("auth/verify-reset", {
-        title: "Verify Reset OTP",
-        email,
-        successMessage: null,
-        errorMessage: "OTP expired",
-      });
-    }
+    delete req.session.pendingLogin;
 
-    if (passwordReset.otp !== otp) {
-      return res.render("auth/verify-reset", {
-        title: "Verify Reset OTP",
-        email,
-        successMessage: null,
-        errorMessage: "Invalid OTP",
-      });
-    }
-
-    return res.redirect(
-      `/auth/reset-password?email=${encodeURIComponent(
-        email.trim().toLowerCase(),
-      )}`,
-    );
-  } catch (error) {
-    console.log(error);
-
-    return res.render("auth/verify-reset", {
-      title: "Verify Reset OTP",
-      email,
-      successMessage: null,
-      errorMessage: "Server failed to respond",
-    });
-  }
-}
-
-async function resetPassword(req, res) {
-  const { email, password, confirmPassword } = req.body;
-  try {
-    if (password !== confirmPassword) {
-      return res.render("auth/reset-password", {
-        title: "Reset Password",
-        email,
-        successMessage: null,
-        errorMessage: "Passwords do not match",
-      });
-    }
-
-    const passwordReset = await PasswordReset.findOne({
-      email: email.trim().toLowerCase(),
-    });
-
-    if (!passwordReset) {
-      return res.render("auth/reset-password", {
-        title: "Reset Password",
-        email,
-        successMessage: null,
-        errorMessage: "Reset session expired",
-      });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    await User.updateOne(
-      {
-        email: email.trim().toLowerCase(),
-      },
-
-      {
-        password: hashedPassword,
-      },
-    );
-
-    await PasswordReset.deleteOne({
-      email: email.trim().toLowerCase(),
-    });
-
-    return res.render("auth/get-started", {
-      activeForm: "login",
-      title: "Welcome Back!",
-      successMessage: "Password reset successful",
-      errorMessage: null,
+    return res.status(200).json({
+      message: "Login successful",
     });
   } catch (error) {
     console.log(error);
 
-    return res.render("auth/reset-password", {
-      title: "Reset Password",
-      email,
-      successMessage: null,
-      errorMessage: "Server failed to respond",
+    return res.status(500).json({
+      message: "Server failed to respond",
     });
   }
 }
+
+function logout(req, res) {
+  req.session.destroy(() => {
+    res.redirect("/auth/login");
+  });
+}
+
 module.exports = {
-  signUp: signUp,
-  login: login,
-  verifyOtp: verifyOtp,
-  resendOtp: resendOtp,
-  forgotPassword: forgotPassword,
-  verifyResetOtp: verifyResetOtp,
-  resetPassword: resetPassword,
+  startSignUp,
+  completeSignup,
+  startLogin,
+  completeLogin,
+  logout,
 };

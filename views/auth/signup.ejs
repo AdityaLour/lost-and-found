@@ -1,47 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+<div id="messageBox" class="auth-message"></div>
+<form class="auth-form" id="signupForm">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Signup</title>
-</head>
+  <div class="form-group">
+    <label for="username">
+      Name
+    </label>
 
-<body>
-  <form action="/auth/signup" method="post" class="auth-form">
-    <div class="form-group" id="username-group">
-      <label for="username">Username</label>
-      <input type="text" placeholder="Enter a Username" class="form-input" required id="username" name="username">
-    </div>
+    <input type="text" id="username" name="username" class="form-input" placeholder="Enter your name" required>
+  </div>
 
-    <div class="form-group" id="email-group">
-      <label for="email">Email</label>
-      <input type="text" placeholder="Enter your email address" class="form-input" required id="email" name="email">
-    </div>
+  <div class="form-group">
+    <label for="phoneNumber">
+      Mobile Number
+    </label>
 
-    <div class="form-group" id="password-group">
-      <label for="password">Password</label>
-      <input type="password" placeholder="Enter your password" class="form-input" required id="password" name="password">
-    </div>
+    <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" placeholder="Enter your mobile number" required>
+  </div>
 
-    <div class="form-group" id="confirm-password-group">
-      <label for="confirmPassword">Confirm Password</label>
-      <input type="password" placeholder="Confirm Password" class="form-input" required id="confirmPassword" name="confirmPassword">
-    </div>
+  <div id="recaptcha-container"></div>
 
-    <button type="submit" class="button">
-      Signup
+  <div id="otpSection" style="display:none;">
+    <label for="otp">
+      OTP
+    </label>
+
+    <input type="text" id="otp" maxlength="6" placeholder="Enter OTP">
+
+    <button type="button" id="verifyOtpBtn">
+      Verify OTP
     </button>
+  </div>
 
-    <div class="auth-divider">
-      <span>OR</span>
-    </div>
+  <button type="submit" class="button">
+    Send OTP
+  </button>
 
-    <a href="/auth/google" class="google-btn">
-      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
-      Continue with Google
+  <p class="auth-switch">
+    Already have an account?
+    <a href="/auth/login">
+      Login
     </a>
-  </form>
-</body>
-
-</html>
+  </p>
+  <script type="module" src="/scripts/firebase-auth.js"></script>
+</form>
