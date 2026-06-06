@@ -45,9 +45,6 @@ async function startSignUp(req, res) {
 
 async function completeSignup(req, res) {
   const { idToken } = req.body;
-  console.log("COMPLETE SIGNUP HIT");
-  console.log(req.body);
-  console.log(req.session.pendingSignUp);
   try {
     if (!idToken) {
       return res.status(400).json({

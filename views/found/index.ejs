@@ -10,60 +10,46 @@
   <title>
     Found Items
   </title>
-
   <link rel="stylesheet" href="/styles/found-index.css">
-
+  <link rel="stylesheet" href="/styles/variable.css">
 </head>
 
 <body>
-
   <main class="found-items-page">
-
+    <%- include("../partials/header") %>
     <h1>
       Found Items
     </h1>
 
     <section class="found-items-grid">
-
       <% foundItems.forEach((item) => { %>
+      <div class="card-container">
+        <a href="/found/items/<%= item._id %>" class="found-item-card">
+          <img src="<%= item.images[0] %>" alt="Found Item">
+          <div class="found-item-content">
 
-      <a href="/found/items/<%= item._id %>" class="found-item-card">
+            <span class="category">
+              <%= item.description.category %>
+            </span>
 
-        <img src="<%= item.images[0] %>" alt="Found Item">
+            <p>
+              <%= item.description.details.slice(0, 20) %>...
+            </p>
 
-        <div class="found-item-content">
+            <span class="date">
+              <%= new Date(item.description.lostDate).toDateString() %>
+            </span>
 
-          <span class="category">
-
-            <%= item.description.category %>
-
-          </span>
-
-          <p>
-
-            <%= item.description.details
-                .slice(0, 100) %>...
-
-          </p>
-
-          <span class="date">
-
-            <%= new Date(
-                item.description.lostDate
-              ).toDateString() %>
-
-          </span>
-
-        </div>
-
-      </a>
+          </div>
+        </a>
+        <div class="shadow-div"></div>
+      </div>
 
       <% }) %>
 
     </section>
-
   </main>
-
+  <script src="/scripts/background.js"></script>
 </body>
 
 </html>

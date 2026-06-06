@@ -5,11 +5,13 @@
 }
 
 body {
-  background-image: url("/assets/images/darkbg.png");
+  background-image: var(--random-bg);
   font-family: var(--font-select);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
+  color: var(--text-color);
 }
 
 .lost-items-page {
@@ -21,8 +23,7 @@ body {
 .lost-items-page h1 {
   padding-top: 150px;
   text-align: center;
-  font-size: 3.5rem;
-
+  font-size: 5rem;
   margin-bottom: 50px;
   letter-spacing: 1px;
   color: var(--text-color);
@@ -114,6 +115,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  color: var(--text-color);
 }
 
 .lost-item-content h2 {
@@ -123,13 +125,14 @@ body {
 }
 
 .lost-item-content p {
-  color: rgba(255, 255, 255, 0.75);
   line-height: 1.6;
   font-size: 0.96rem;
+  color: var(--text-color);
 }
 
 .lost-item-content span {
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-color);
+
   font-size: 0.88rem;
 }
 

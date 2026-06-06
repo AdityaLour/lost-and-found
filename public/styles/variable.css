@@ -7,4 +7,7 @@
   --random-bg: none;
 
   --font-select: "Gochi Hand", cursive;
+
+  --active-class: rgb(55, 82, 75);
+  --container-bg-active: rgb(43, 63, 58);
 }
