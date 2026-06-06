@@ -6,6 +6,7 @@ const connectDb = require("./db/database");
 const authRoutes = require("./routes/auth-routes");
 const lostRoutes = require("./routes/lost-router");
 const foundRoutes = require("./routes/found-routes");
+const baseRoutes = require("./routes/base-routes");
 const sessionConfig = require("./config/session");
 
 const app = express();
@@ -28,10 +29,8 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/lost", lostRoutes);
 app.use("/found", foundRoutes);
+app.use("/", baseRoutes);
 
-app.get("/test-session", (req, res) => {
-  res.json(req.session.user);
-});
 connectDb().then(() => {
   app.listen(process.env.PORT, () => {
     console.log(`Server is running on Port ${process.env.PORT}`);
