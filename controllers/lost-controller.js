@@ -120,7 +120,7 @@ async function createLostItem(req, res) {
     }
 
     const finalLostItem = await LostItem.create({
-      user: req.user._id,
+      user: req.user.id,
 
       location: req.session.lostItem.location,
 
@@ -129,7 +129,7 @@ async function createLostItem(req, res) {
       images: imageUrls,
     });
 
-    return res.send("DB SUCCESS");
+    return res.redirect("/found/items");
   } catch (error) {
     console.log("FULL ERROR:");
 
