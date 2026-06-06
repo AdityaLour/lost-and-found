@@ -5,8 +5,11 @@
 }
 
 body {
-  background-color: var(--card-bg);
+  background-image: url("/assets/images/darkbg.png");
   font-family: var(--font-select);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .lost-items-page {
@@ -18,7 +21,8 @@ body {
 .lost-items-page h1 {
   padding-top: 150px;
   text-align: center;
-  font-size: 3rem;
+  font-size: 3.5rem;
+
   margin-bottom: 50px;
   letter-spacing: 1px;
   color: var(--text-color);
@@ -26,26 +30,30 @@ body {
 
 .lost-items-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 42px;
+}
+
+.card-container {
+  position: relative;
+  border-radius: 24px;
 }
 
 .lost-item-card {
+  position: relative;
+  z-index: 1;
+  display: block;
   background: rgba(var(--card-bg), 0.78);
   backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
-
   border-radius: 24px;
   overflow: hidden;
   text-decoration: none;
   color: white;
-  position: relative;
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: transform 0.1s ease-in;
 }
 
 .lost-item-card::before {
@@ -61,21 +69,36 @@ body {
     rgba(255, 255, 255, 0.05),
     transparent
   );
-
   transform: skewX(-25deg);
   pointer-events: none;
 }
 
 .lost-item-card:hover {
-  transform: translateY(-6px);
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translate(5px, -5px);
 }
 
-.lost-item-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+.lost-item-card:active {
+  transform: translate(0px, 0px);
+}
+
+.card-container .shadow-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  background-color: #171c1d;
+  transition: transform 0.1s ease-in;
+}
+
+.card-container:has(.lost-item-card:hover) .shadow-div {
+  transform: translate(-5px, 5px);
+}
+
+.card-container:has(.lost-item-card:active) .shadow-div {
+  transform: translate(0px, 0px);
 }
 
 .lost-item-card img {
@@ -88,7 +111,6 @@ body {
 
 .lost-item-content {
   padding: 22px;
-
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -110,6 +132,7 @@ body {
   color: rgba(255, 255, 255, 0.55);
   font-size: 0.88rem;
 }
+
 @media (max-width: 768px) {
   .lost-items-page {
     padding: 40px 20px;

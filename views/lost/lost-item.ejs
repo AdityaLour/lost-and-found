@@ -19,37 +19,25 @@
     </h1>
 
     <section class="lost-items-grid">
-
       <% lostItems.forEach((item) => { %>
 
-      <a href="/lost/items/<%= item._id %>" class="lost-item-card">
-
-        <img src="<%= item.images[0] %>" alt="Lost Item">
-
-        <div class="lost-item-content">
-
-          <h2>
-            <%= item.description.category %>
-          </h2>
-
-          <p>
-            <%= item.description.details.slice(0, 80) %>...
-          </p>
-
-          <span>
-            <%= new Date(item.description.lostDate).toDateString() %>
-          </span>
-
-        </div>
-
-      </a>
+      <div class="card-container">
+        <a href="/lost/items/<%= item._id %>" class="lost-item-card">
+          <img src="<%= item.images[0] %>" alt="Lost Item">
+          <div class="lost-item-content">
+            <h2><%= item.description.category %></h2>
+            <p><%= item.description.details.slice(0, 20) %>...</p>
+            <span><%= new Date(item.description.lostDate).toDateString() %></span>
+          </div>
+        </a>
+        <div class="shadow-div"></div>
+      </div>
 
       <% }) %>
-
     </section>
 
   </main>
-
+  <script src="/scripts/background.js"></script>
 </body>
 
 </html>
