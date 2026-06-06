@@ -2,40 +2,61 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Gochi Hand", cursive;
 }
 
 body {
   min-height: 100vh;
   display: flex;
+  width: 100%;
+  padding: 20px;
+  height: 100%;
   justify-content: center;
   align-items: center;
   background-color: #1c1d1f;
   font-family: sans-serif;
-}
 
-.location-page {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+  background-image: var(--random-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .location-card {
-  width: 500px;
+  width: 550px;
+  height: 766px;
   padding: 40px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
   display: flex;
   flex-direction: column;
   gap: 20px;
+  position: relative;
+  overflow: hidden;
+  transition:
+    width 0.3s ease-in,
+    height 0.3s ease-in;
+  align-items: center;
+}
+
+.location-card:hover {
+  width: 600px;
+  height: 816px;
+  transition:
+    width 0.3s ease-in,
+    height 0.3s ease-in;
 }
 
 .location-card h1 {
-  color: wheat;
-  font-size: 2rem;
+  font-size: 2.5rem;
   text-align: center;
+  color: var(--text-color);
 }
 
 #location-input {
@@ -44,17 +65,26 @@ body {
   border: none;
   outline: none;
   border-radius: 14px;
-  font-size: 1rem;
+  font-size: 1.3rem;
+  text-align: center;
+  background-color: var(--container-bg);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
 }
 
 #current-location-btn,
 .next-btn {
+  width: 450px;
   padding: 14px;
   border: none;
   border-radius: 14px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
   transition: 0.2s ease;
+  text-align: center;
+  background-color: var(--container-bg);
+  color: var(--text-color);
 }
 
 #current-location-btn:hover,
@@ -64,7 +94,6 @@ body {
 
 .divider {
   text-align: center;
-  color: wheat;
   font-size: 1rem;
 }
 
@@ -90,6 +119,8 @@ body {
   color: black;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  background-color: var(--container-bg);
+  color: var(--text-color);
 }
 
 .suggestion-item:hover {
@@ -97,14 +128,13 @@ body {
 }
 
 #map {
-  width: 100%;
+  width: 450px;
   height: 300px;
   border-radius: 16px;
   overflow: hidden;
 }
 
 #location-message {
-  color: wheat;
   text-align: center;
   min-height: 20px;
 }
@@ -113,86 +143,4 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-#title,
-#category,
-#description,
-#lostDate {
-  width: 100%;
-  padding: 16px 18px;
-  border: none;
-  outline: none;
-  border-radius: 14px;
-  font-size: 1rem;
-  background-color: white;
-  color: #111827;
-}
-
-#title::placeholder,
-#description::placeholder {
-  color: #6b7280;
-}
-
-#description {
-  resize: vertical;
-  min-height: 140px;
-  font-family: sans-serif;
-}
-
-#category {
-  cursor: pointer;
-}
-
-#lostDate {
-  cursor: pointer;
-}
-
-textarea {
-  font-family: sans-serif;
-}
-
-input,
-select,
-textarea,
-button {
-  font-family: inherit;
-}
-
-#preview-container {
-  margin-top: 18px;
-
-  display: flex;
-  flex-wrap: wrap;
-
-  gap: 12px;
-}
-
-.preview-image {
-  width: 90px;
-  height: 90px;
-
-  object-fit: cover;
-
-  border-radius: 14px;
-
-  border: 2px solid rgba(255, 255, 255, 0.12);
-}
-
-select,
-textarea,
-input[type="date"] {
-  width: 100%;
-
-  padding: 16px;
-
-  border: none;
-
-  outline: none;
-
-  border-radius: 14px;
-
-  font-size: 1rem;
-
-  font-family: sans-serif;
 }

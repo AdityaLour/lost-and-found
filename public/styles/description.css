@@ -10,45 +10,48 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: sans-serif;
+  font-family: var(--font-style);
   background-image: var(--random-bg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   color: var(--text-color);
+
   width: 100%;
+  padding: 20px;
 }
 
-.category-card {
+.description-card {
   width: 550px;
-  height: 550px;
+  height: 570px;
   padding: 40px;
   border-radius: 24px;
-  background: rgba(var(--card-bg), 0.75);
+  background: rgba(var(--card-bg), 0.78);
   backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
   position: relative;
   overflow: hidden;
   transition:
     width 0.3s ease-in,
     height 0.3s ease-in;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
-.category-card:hover {
+.description-card:hover {
   width: 600px;
-  height: 600px;
+  height: 620px;
   transition:
     width 0.3s ease-in,
     height 0.3s ease-in;
 }
 
-.category-card::before {
+.description-card::before {
   content: "";
   position: absolute;
   top: 0;
@@ -65,61 +68,53 @@ body {
   pointer-events: none;
 }
 
-.category-card h1 {
-  font-size: 3rem;
+.description-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 480px;
+}
+
+.description-card h1 {
+  font-size: 2.4rem;
   text-align: center;
   color: rgb(var(--text-color));
+  line-height: 1.2;
 }
 
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  font-size: 1.2rem;
-}
-
-.category-option {
-  cursor: pointer;
-}
-
-.category-option input {
-  display: none;
-}
-
-.category-option span {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#description,
+#lostDate {
+  width: 100%;
   padding: 16px;
-  min-height: 60px;
+  border: 1px solid white;
+  outline: none;
   border-radius: 14px;
   background: rgb(var(--container-bg));
   color: rgb(var(--text-color));
-  transition: all 0.25s ease;
+  font-size: 1rem;
+  font-family: inherit;
 }
 
-.category-option:hover span {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+#description {
+  resize: none;
+  min-height: 180px;
 }
 
-.category-option input:checked + span {
-  background: rgba(var(--container-bg), 0.95);
-  outline: 2px solid rgba(255, 255, 255, 0.18);
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 10px 24px rgba(0, 0, 0, 0.3);
-  transform: translateY(-2px);
+#description::placeholder {
+  color: rgba(var(--text-color), 0.7);
+}
+
+#lostDate {
+  cursor: pointer;
 }
 
 .next-btn {
-  margin-top: auto;
   padding: 14px;
   border: none;
   border-radius: 14px;
   cursor: pointer;
   font-size: 1rem;
-  transition: all 0.25s ease;
+  transition: 0.25s;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   background-color: var(--container-bg);
   color: var(--text-color);

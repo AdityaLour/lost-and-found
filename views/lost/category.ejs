@@ -8,6 +8,7 @@
   <title>
     Lost Item Category
   </title>
+  <link rel="stylesheet" href="/styles/variable.css">
   <link rel="stylesheet" href="/styles/category.css">
 </head>
 
@@ -16,11 +17,6 @@
   <main class="location-page">
     <section class="location-card">
       <form action="/lost/category" method="post">
-
-        <h1>
-          What did you find ?
-        </h1>
-
         <div class="input-container">
 
           <%- include(
@@ -30,14 +26,10 @@
             }
           ) %>
         </div>
-
-        <button type="submit" class="next-btn">
-          Next
-        </button>
       </form>
     </section>
   </main>
-
+  <script src="/scripts/background.js"></script>
 </body>
 
 </html>

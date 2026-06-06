@@ -4,37 +4,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-    Upload Images
-  </title>
-  <link rel="stylesheet" href="/styles/location.css">
+  <title>Upload Images</title>
+
+  <link rel="stylesheet" href="/styles/variable.css">
+  <link rel="stylesheet" href="/styles/image.css">
+
   <script src="/scripts/image.js" defer></script>
 </head>
 
 <body>
-  <main class="location-page">
-    <section class="location-card">
-      <form action="/found/image" method="post" enctype="multipart/form-data">
+  <section class="image-card">
 
-        <h1>
-          Can we see it ...?
-        </h1>
+    <form action="/found/image" method="post" enctype="multipart/form-data">
 
-        <div class="input-container">
-          <input type="file" name="images" id="images" accept="image/*" multiple required>
-          <div id="preview-container"></div>
-        </div>
+      <h1>Can we see it...?</h1>
 
-        <p id="location-message">
-          Minimum 1 image • Maximum 3 images • 10MB each
-        </p>
-        <button type="submit" class="next-btn">
-          Submit Found Item
-        </button>
-      </form>
+      <div class="input-container">
+        <input type="file" name="images" id="images" accept="image/*" multiple required>
 
-    </section>
-  </main>
+        <div id="preview-container"></div>
+      </div>
+
+      <p id="upload-message">
+        Minimum 1 image • Maximum 3 images • 10MB each
+      </p>
+
+      <button type="submit" class="next-btn">
+        Submit Found Item
+      </button>
+
+    </form>
+
+  </section>
+  <script src="/scripts/background.js"></script>
+
 </body>
 
 </html>

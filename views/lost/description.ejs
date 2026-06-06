@@ -7,34 +7,34 @@
   <title>
     Lost Item Description
   </title>
-  <link rel="stylesheet" href="/styles/location.css">
+  <link rel="stylesheet" href="/styles/variable.css">
+  <link rel="stylesheet" href="/styles/description.css">
 
 </head>
 
 <body>
+  <section class="description-card">
+    <form action="/lost/description" method="post">
 
-  <main class="location-page">
-    <section class="location-card">
-      <form action="/lost/description" method="post">
+      <h1>
+        tell us about it a bit more
+      </h1>
 
-        <h1>
-          tell us about it a bit more
-        </h1>
+      <div class="input-container">
+        <textarea name="details" id="description" placeholder="Describe the lost item..." rows="6" required></textarea>
+      </div>
 
-        <div class="input-container">
-          <textarea name="details" id="description" placeholder="Describe the lost item..." rows="6" required></textarea>
-        </div>
+      <div class="input-container">
+        <input type="date" name="lostDate" id="lostDate" max="<%= new Date().toISOString().split('T')[0] %>" required>
+      </div>
 
-        <div class="input-container">
-          <input type="date" name="lostDate" id="lostDate" max="<%= new Date().toISOString().split('T')[0] %>" required>
-        </div>
+      <button type="submit" class="next-btn">
+        Next
+      </button>
+    </form>
+  </section>
+  <script src="/scripts/background.js"></script>
 
-        <button type="submit" class="next-btn">
-          Next
-        </button>
-      </form>
-    </section>
-  </main>
 </body>
 
 </html>

@@ -8,35 +8,27 @@
   <title>
     Lost Item Category
   </title>
+  <link rel="stylesheet" href="/styles/variable.css">
   <link rel="stylesheet" href="/styles/category.css">
+
 </head>
 
 <body>
 
-  <main class="location-page">
-    <section class="location-card">
-      <form action="/found/category" method="post" class="card">
+  <section class="location-card">
+    <form action="/found/category" method="post" class="card">
+      <div class="input-container">
 
-        <h1>
-          What did you find ?
-        </h1>
-
-        <div class="input-container">
-
-          <%- include(
+        <%- include(
                 "../partials/category-grid",
                 {
                   action: "/found/category"
                 }
               ) %>
-        </div>
-
-        <button type="submit" class="next-btn">
-          Next
-        </button>
-      </form>
-    </section>
-  </main>
+      </div>
+    </form>
+  </section>
+  <script src="/scripts/background.js"></script>
 
 </body>
 

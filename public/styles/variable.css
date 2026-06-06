@@ -1,0 +1,10 @@
+:root {
+  --card-bg: rgb(34, 36, 38);
+  --container-bg: rgb(30, 45, 41);
+
+  --text-color: rgb(97, 117, 119);
+
+  --random-bg: none;
+
+  --font-select: "Gochi Hand", cursive;
+}

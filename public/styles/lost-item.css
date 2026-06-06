@@ -5,107 +5,111 @@
 }
 
 body {
-  background: #111827;
-
-  font-family: Arial, sans-serif;
-
-  color: white;
+  background-color: var(--card-bg);
+  font-family: var(--font-select);
 }
 
 .lost-items-page {
   width: 100%;
-
   min-height: 100vh;
-
   padding: 50px 6%;
 }
 
 .lost-items-page h1 {
+  padding-top: 150px;
   text-align: center;
-
   font-size: 3rem;
-
   margin-bottom: 50px;
-
-  color: #f3f4f6;
-
   letter-spacing: 1px;
+  color: var(--text-color);
 }
 
 .lost-items-grid {
   display: grid;
-
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-
   gap: 32px;
 }
 
 .lost-item-card {
-  background: rgba(255, 255, 255, 0.06);
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  backdrop-filter: blur(10px);
+  background: rgba(var(--card-bg), 0.78);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 
   border-radius: 24px;
-
   overflow: hidden;
-
   text-decoration: none;
-
   color: white;
-
+  position: relative;
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
 }
 
+.lost-item-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+
+  transform: skewX(-25deg);
+  pointer-events: none;
+}
+
+.lost-item-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
 .lost-item-card:hover {
   transform: translateY(-8px);
-
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
 }
 
 .lost-item-card img {
   width: 100%;
-
   height: 260px;
-
   object-fit: cover;
-
   display: block;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .lost-item-content {
   padding: 22px;
 
   display: flex;
-
   flex-direction: column;
-
-  gap: 16px;
+  gap: 14px;
 }
 
 .lost-item-content h2 {
   font-size: 1.4rem;
-
-  color: #f9fafb;
+  font-family: var(--heading-font);
+  color: rgb(var(--text-color));
 }
 
 .lost-item-content p {
-  color: #d1d5db;
-
+  color: rgba(255, 255, 255, 0.75);
   line-height: 1.6;
-
   font-size: 0.96rem;
 }
 
 .lost-item-content span {
-  color: #9ca3af;
-
+  color: rgba(255, 255, 255, 0.55);
   font-size: 0.88rem;
 }
-
 @media (max-width: 768px) {
   .lost-items-page {
     padding: 40px 20px;
