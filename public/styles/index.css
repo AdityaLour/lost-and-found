@@ -232,13 +232,6 @@ a {
   bottom: 0;
 }
 
-.grass {
-  width: 100%;
-  display: block; /* removes inline gap below image */
-  flex-shrink: 0;
-  margin-bottom: -10px;
-}
-
 .about {
   display: flex;
   align-items: center;
