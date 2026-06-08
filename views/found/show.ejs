@@ -1,90 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
 
-<head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta charset="UTF-8">
+    <title>
+      Found Item
+    </title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/found-show.css">
+    <link rel="stylesheet" href="/styles/variable.css">
 
-  <title>
-    Found Item
-  </title>
+  </head>
 
-  <link rel="stylesheet" href="/styles/show.css">
-
-</head>
-
-<body>
-
-  <main class="show-page">
-
-    <section class="show-card">
-
-      <div class="show-image-section">
-
-        <img src="<%= foundItem.images[0] || '/images/placeholder.png' %>" alt="Found Item">
-
-      </div>
-
-      <div class="show-content">
-
-        <span class="show-category">
-
-          <%= foundItem.description.category %>
-
-        </span>
-
-        <h1>
-          Found Item
-        </h1>
-
-        <p class="show-description">
-
-          <%= foundItem.description.details %>
-
-        </p>
-
-        <div class="show-meta">
-
-          <div class="meta-box">
-
-            <p class="meta-title">
-              Found Date
-            </p>
-
-            <p class="meta-value">
-
-              <%= new Date(
-                foundItem.description.foundDate
-              ).toDateString() %>
-
-            </p>
-
-          </div>
-
-          <div class="meta-box">
-
-            <p class="meta-title">
-              Found At
-            </p>
-
-            <p class="meta-value">
-
-              <%= foundItem.location.address %>
-
-            </p>
-
-          </div>
-
+  <body>
+    <%- include("../partials/header") %>
+    <main class="show-page">
+      <section class="show-card">
+        <div class="show-image-section">
+          <img src="<%= foundItem.images[0] || '/images/placeholder.png' %>" alt="Found Item ">
         </div>
 
+        <div class="show-content">
+          <span class="show-category">
+            <%= foundItem.description.category %>
+          </span>
+
+          <p class="show-description">
+            <%= foundItem.description.details %>
+          </p>
+
+          <div class="show-meta">
+            <div class="meta-box">
+              <p class="meta-title">
+                Found Date
+              </p>
+
+              <p class="meta-value">
+                <%= new Date(
+                  foundItem.description.foundDate
+                ).toDateString() %>
+              </p>
+
+            </div>
+            <div class="meta-box">
+              <p class="meta-title">
+                Found At
+              </p>
+
+              <p class="meta-value">
+                <%= foundItem.location.address %>
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="claim-section">
+        <h2>Claim Item</h2>
+        <div class="claim-user">
+          <div class="claim-pfp">
+            <img src="/assets/animations/male-user-shadow-svgrepo-com.svg" alt=" pfp">
+          </div>
+          <div class="claim-info">
+            <p class="claim-name"><%= foundItem.user.username %></p>
+            <p class="claim-contact"><%= foundItem.user.phoneNumber %></p>
+          </div>
+        </div>
       </div>
 
-    </section>
+    </main>
+    <script src="/scripts/background.js"></script>
+  </body>
 
-  </main>
-
-</body>
-
-</html>
+  </html>

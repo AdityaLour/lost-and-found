@@ -159,7 +159,7 @@ async function getAllFoundItems(req, res) {
 
 async function getSingleFoundItem(req, res) {
   try {
-    const foundItem = await FoundItem.findById(req.params.id);
+    const foundItem = await FoundItem.findById(req.params.id).populate("user");
 
     if (!foundItem) {
       return res.status(404).send("Found item not found");

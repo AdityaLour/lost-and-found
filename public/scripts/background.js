@@ -1,4 +1,3 @@
-console.log("background.js loaded");
 const images = [
   "/assets/bg-img/1.png",
   "/assets/bg-img/2.png",
