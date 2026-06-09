@@ -126,18 +126,19 @@ a {
   padding: 0 18px;
   border: 1px solid var(--border-light);
   border-radius: 14px;
+  background-color: var(--container-bg);
   color: var(--text-color);
+  font-family: var(--font-style);
   font-size: 1rem;
+  font-weight: 500;
   outline: none;
   transition:
     border-color 0.35s ease,
     background-color 0.35s ease;
-  background-color: var(--text-color);
-  font-family: var(--font-style);
 }
 
 .form-input::placeholder {
-  color: rgb(32, 66, 17);
+  color: var(--text-color);
   font-weight: 600;
   font-family: var(--font-style);
 }
@@ -149,7 +150,7 @@ a {
 .form-input:focus {
   border-color: var(--color-primary);
   background-color: var(--active-class);
-  font-family: var(--font-style);
+  color: var(--text-color);
 }
 
 .button {
@@ -169,6 +170,7 @@ a {
   cursor: pointer;
   transition: transform 0.1s ease-in;
   font-family: var(--font-style);
+  color: var(--text-color);
 }
 
 .button:hover {
@@ -218,15 +220,16 @@ a {
   justify-content: center;
   text-align: center;
   flex-direction: row;
-  margin-bottom: 18px;
-  gap: 12px;
-  height: 10px;
   letter-spacing: 8px;
   font-size: 18px;
   font-weight: 700;
   text-align: center;
   font-family: var(--font-style);
   z-index: 90;
+  gap: 16px;
+  margin-bottom: 20px;
+  width: 100%;
+  height: auto;
 }
 
 #otpSection input {
@@ -250,13 +253,16 @@ a {
   border: 1px solid var(--border-light);
   border-radius: 14px;
   background-color: var(--container-bg);
+
   color: var(--text-color);
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 8px;
+  font-family: var(--font-style);
+
+  font-size: 1rem;
+  font-weight: 500;
+
+  letter-spacing: 6px;
   text-align: center;
   outline: none;
-  font-family: var(--font-style);
 }
 
 .otp-row .btn-container {
@@ -300,12 +306,6 @@ a {
   font-family: var(--font-style);
 }
 
-#phoneNumber {
-  color: rgb(32, 66, 17);
-  font-weight: 600;
-  font-family: var(--font-style);
-}
-
 #recaptcha-container {
   display: flex;
   justify-content: center;
@@ -325,26 +325,102 @@ a {
   color: var(--text-color-hover);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) and (min-width: 481px) {
   body {
-    padding: 16px;
-    overflow-y: auto;
-  }
-
-  .card {
-    padding: 28px 22px;
-
-    border-radius: 24px;
-  }
-
-  .auth-title {
+    padding: 20px;
+    overflow-x: hidden;
     font-size: 2rem;
   }
 
+  .card {
+    width: 90%;
+    max-width: 650px;
+    padding: 30px;
+    gap: 30px;
+  }
+
+  .auth-title {
+    font-size: 2.3rem;
+    margin-bottom: 20px;
+  }
+
+  .auth-toggle {
+    margin-bottom: 20px;
+  }
+
+  .auth-toggle a {
+    font-size: 1.5rem;
+    padding: 12px;
+  }
+
+  .auth-form {
+    gap: 30px;
+  }
+
+  .form-group {
+    column-gap: 20px;
+  }
+
+  .form-group label {
+    width: 140px;
+    font-size: 1.3rem;
+  }
+
+  .form-input {
+    height: 48px;
+    font-size: 1rem;
+  }
+
+  .button {
+    height: 50px;
+    font-size: 1.1rem;
+  }
+
+  .btn-container {
+    height: 60px;
+  }
+
+  .btn-container .shadow-div {
+    height: 50px;
+  }
+
+  .otp-row {
+    gap: 10px;
+  }
+
+  .otp-row input {
+    height: 50px;
+    font-size: 1rem;
+    letter-spacing: 5px;
+  }
+
+  #otpSection {
+    gap: 8px;
+  }
+
+  .auth-switch {
+    font-size: 1rem;
+  }
+
+  .message,
+  #messageBox {
+    font-size: 1rem;
+  }
+
+  .auth-switch {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) and (min-width: 481px) {
+  body {
+    padding: 20px;
+    overflow-x: hidden;
+    font-size: 2rem;
+  }
   .form-group {
     flex-direction: column;
     align-items: flex-start;
-
     gap: 10px;
   }
 
@@ -354,10 +430,133 @@ a {
 
   .form-input {
     width: 100%;
+    flex: none;
+    font-size: 1rem;
   }
 
-  .auth-divider span::before,
-  .auth-divider span::after {
-    width: 70px;
+  .auth-switch {
+    font-size: 1.3rem;
+  }
+
+  #recaptcha-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    transform: scale(0.85);
+    transform-origin: left;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 16px;
+    overflow-x: hidden;
+    font-size: 1rem;
+  }
+
+  .card {
+    width: 100%;
+    padding: 24px 18px;
+    gap: 24px;
+    border-radius: 24px;
+  }
+
+  .auth-title {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  .auth-toggle {
+    margin-bottom: 16px;
+  }
+
+  .auth-toggle a {
+    font-size: 1.1rem;
+    padding: 10px;
+  }
+
+  .auth-form {
+    gap: 20px;
+  }
+
+  .form-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .form-group label {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .form-input {
+    width: 100%;
+    height: 50px;
+    flex: none;
+    font-size: 0.95rem;
+  }
+
+  .button {
+    height: 50px;
+    font-size: 1rem;
+  }
+
+  .btn-container {
+    height: 60px;
+  }
+
+  .btn-container .shadow-div {
+    height: 50px;
+  }
+
+  .otp-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .otp-row input {
+    width: 100%;
+    padding: 8px;
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+  }
+
+  .otp-row .btn-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .otp-row {
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .otp-row input {
+    width: 100%;
+    height: 60px;
+  }
+
+  .auth-switch {
+    font-size: 1rem;
+    text-align: center;
+    flex-wrap: wrap;
+  }
+
+  .message,
+  #messageBox {
+    font-size: 0.9rem;
+  }
+
+  .success-message,
+  .error-message {
+    font-size: 0.9rem;
+  }
+
+  #recaptcha-container {
+    transform: scale(0.85);
+    transform-origin: left;
   }
 }
