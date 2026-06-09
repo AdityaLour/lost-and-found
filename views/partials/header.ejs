@@ -6,8 +6,33 @@
     </a>
 
     <ul>
-      <li><a href="/auth/getstarted?form=signup">Sign Up</a></li>
-      <li><a href="/auth/getstarted?form=login">Login</a></li>
+      <li class="btn-signup"><a href="/auth/getstarted?form=signup">Sign Up</a></li>
+      <li class="btn-login"><a href="/auth/getstarted?form=login">Login</a></li>
     </ul>
   </nav>
+  <script>
+    const header = document.querySelector("header");
+    let timeoutId;
+
+    if (window.innerWidth <= 768) {
+      header.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        header.classList.add("expanded");
+
+        clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(() => {
+          header.classList.remove("expanded");
+        }, 2000);
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!header.contains(e.target)) {
+          clearTimeout(timeoutId);
+          header.classList.remove("expanded");
+        }
+      });
+    }
+  </script>
 </header>
