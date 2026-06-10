@@ -165,3 +165,88 @@ body {
   transform: translate(-0px, 0px);
   transition: all ease-in 0.1s;
 }
+
+@media (max-width: 768px) and (min-width: 481px) {
+  .description-card {
+    width: 90%;
+    max-width: 650px;
+    height: auto;
+    padding: 30px;
+  }
+
+  .description-card:hover {
+    width: 90%;
+    height: auto;
+  }
+
+  .description-card form {
+    width: 100%;
+  }
+
+  .description-card h1 {
+    font-size: 2rem;
+  }
+
+  #description {
+    min-height: 160px;
+  }
+
+  .btn-container,
+  .next-btn.btn,
+  .shadow-div {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 15px;
+  }
+
+  .description-card {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .description-card:hover {
+    width: 100%;
+    height: auto;
+  }
+
+  .description-card form {
+    width: 100%;
+    gap: 18px;
+  }
+
+  .description-card h1 {
+    font-size: 1.7rem;
+  }
+
+  #description,
+  #lostDate {
+    font-size: 0.95rem;
+    padding: 14px;
+  }
+
+  #description {
+    min-height: 130px;
+  }
+
+  .btn-container {
+    width: 100%;
+    height: 55px;
+  }
+
+  .next-btn.btn {
+    width: 100%;
+    height: 45px;
+    font-size: 1rem;
+  }
+
+  .shadow-div {
+    width: 100%;
+    height: 45px;
+  }
+}

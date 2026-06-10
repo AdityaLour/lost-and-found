@@ -188,3 +188,101 @@ body {
   flex-direction: column;
   gap: 20px;
 }
+
+@media (max-width: 768px) and (min-width: 481px) {
+  .location-card {
+    width: 90%;
+    max-width: 650px;
+    height: auto;
+    padding: 30px;
+  }
+
+  .location-card:hover {
+    width: 90%;
+    height: auto;
+  }
+
+  .location-card h1 {
+    font-size: 2rem;
+  }
+
+  #current-location-btn,
+  .btn-container,
+  .next-btn.btn,
+  .shadow-div,
+  #map {
+    width: 100%;
+  }
+
+  #map {
+    height: 280px;
+  }
+
+  #location-input {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 15px;
+  }
+
+  .location-card {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    border-radius: 22px;
+    gap: 16px;
+  }
+
+  .location-card:hover {
+    width: 100%;
+    height: auto;
+  }
+
+  .location-card h1 {
+    font-size: 1.7rem;
+  }
+
+  #current-location-btn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  #map {
+    width: 100%;
+    height: 220px;
+  }
+
+  #location-input {
+    width: 100%;
+    font-size: 1rem;
+    padding: 14px;
+  }
+
+  .btn-container {
+    width: 100%;
+    height: 55px;
+  }
+
+  .next-btn.btn {
+    width: 100%;
+    height: 45px;
+    font-size: 1rem;
+  }
+
+  .shadow-div {
+    width: 100%;
+    height: 45px;
+  }
+
+  .divider {
+    font-size: 0.9rem;
+  }
+
+  .suggestion-item {
+    font-size: 0.95rem;
+  }
+}
