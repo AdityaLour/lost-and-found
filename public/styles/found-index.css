@@ -151,12 +151,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  font-size: 4rem;
-  font-weight: 300;
-  line-height: 1;
   text-decoration: none;
-  color: white;
-  z-index: 90;
 
   background: rgba(var(--card-bg), 0.78);
   backdrop-filter: blur(18px);
@@ -166,7 +161,31 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 
   transition: transform 0.3s ease;
-  transform-origin: center center; /* explicit */
+  font-weight: bold;
+}
+
+.add-item-btn::before,
+.add-item-btn::after {
+  content: "";
+  position: absolute;
+  background: white;
+  border-radius: 2px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+}
+
+.add-item-btn::before {
+  width: 36px;
+  height: 3px;
+  font-weight: bold;
+}
+
+.add-item-btn::after {
+  width: 3px;
+  height: 36px;
+  font-weight: bold;
 }
 
 .add-item-btn:hover {
@@ -225,9 +244,9 @@ body {
   }
 
   .add-item-btn {
-    width: 75px;
-    height: 75px;
-    font-size: 3rem;
+    width: 60px;
+    height: 60px;
+    font-size: 2.5rem;
     right: 25px;
     bottom: 25px;
   }
@@ -270,11 +289,12 @@ body {
     font-size: 0.9rem;
   }
 
-  .add-item-btn {
-    width: 65px;
-    height: 65px;
-    font-size: 2.5rem;
-    right: 20px;
-    bottom: 20px;
+  .add-item-btn::before {
+    width: 22px;
+    height: 2px;
+  }
+  .add-item-btn::after {
+    width: 2px;
+    height: 22px;
   }
 }
