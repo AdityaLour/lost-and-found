@@ -14,6 +14,8 @@ const {
   getSingleFoundItem,
 } = require("../controllers/found-controller");
 
+const auth = require("../middlewares/auth");
+
 router.get("/location", getLocationPage);
 router.post("/location", saveLocation);
 
@@ -31,5 +33,7 @@ router.post("/image", upload.array("images", 3), createFoundItem);
 
 router.get("/items", getAllFoundItems);
 router.get("/items/:id", getSingleFoundItem);
+
+router.get("/location", auth, getLocationPage);
 
 module.exports = router;

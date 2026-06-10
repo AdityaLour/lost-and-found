@@ -14,6 +14,7 @@ const {
 } = require("../controllers/lost-controller");
 
 const upload = require("../middlewares/upload");
+const auth = require("../middlewares/auth");
 
 router.get("/location", getLocationPage);
 router.get("/description", getDescriptionPage);
@@ -32,5 +33,7 @@ router.post("/category", saveCategory);
 
 router.get("/items", getAllLostItems);
 router.get("/items/:id", getSingleLostItem);
+
+router.get("/location", auth, getLocationPage);
 
 module.exports = router;

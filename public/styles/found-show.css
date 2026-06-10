@@ -191,21 +191,3 @@ body {
   color: var(--text-color);
   opacity: 0.8;
 }
-
-@media (max-width: 768px) {
-  .show-page {
-    padding: 140px 4% 60px;
-  }
-
-  .show-card {
-    width: 100%;
-  }
-
-  .show-image-section {
-    height: 240px;
-  }
-
-  .show-content {
-    padding: 20px;
-  }
-}
