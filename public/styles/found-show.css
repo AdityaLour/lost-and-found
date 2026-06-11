@@ -41,7 +41,9 @@ body {
 .show-image-section {
   padding: 30px;
   width: 100%;
-  height: 800px;
+  min-height: 300px;
+  height: 60vh;
+  max-height: 800px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -190,4 +192,202 @@ body {
   font-size: 1.4rem;
   color: var(--text-color);
   opacity: 0.8;
+}
+
+/* =========================
+   LARGE TABLET
+========================= */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .show-page {
+    padding: 160px 4% 60px;
+  }
+
+  .show-image-section {
+    height: 550px;
+    padding: 24px;
+  }
+
+  .show-content {
+    padding: 24px;
+  }
+
+  .show-category {
+    font-size: 1.8rem;
+  }
+
+  .show-description {
+    font-size: 1.5rem;
+  }
+
+  .meta-title,
+  .meta-value {
+    font-size: 1.2rem;
+  }
+
+  .claim-pfp {
+    width: 160px;
+    height: 160px;
+  }
+
+  .claim-name {
+    font-size: 1.5rem;
+  }
+
+  .claim-contact {
+    font-size: 1.2rem;
+  }
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 768px) and (min-width: 481px) {
+  .show-page {
+    padding: 140px 20px 50px;
+  }
+
+  .show-card,
+  .claim-section {
+    width: 100%;
+  }
+
+  .show-image-section {
+    height: 420px;
+    padding: 20px;
+  }
+
+  .show-image-section img {
+    max-width: 100%;
+    border-radius: 24px;
+  }
+
+  .show-content {
+    padding: 20px;
+  }
+
+  .show-category {
+    font-size: 1.5rem;
+  }
+
+  .show-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+
+  .meta-title {
+    font-size: 1rem;
+  }
+
+  .meta-value {
+    font-size: 1rem;
+  }
+
+  .claim-section {
+    padding: 24px;
+  }
+
+  .claim-pfp {
+    width: 120px;
+    height: 120px;
+  }
+
+  .claim-name {
+    font-size: 1.4rem;
+  }
+
+  .claim-contact {
+    font-size: 1.1rem;
+  }
+}
+
+/* =========================
+   PHONE
+========================= */
+
+@media (max-width: 480px) {
+  .show-page {
+    padding: 120px 15px 40px;
+  }
+
+  .show-card,
+  .claim-section {
+    width: 100%;
+    border-radius: 18px;
+  }
+
+  .show-image-section {
+    height: 260px;
+    padding: 12px;
+  }
+
+  .show-image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 16px;
+  }
+
+  .show-content {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .show-category {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+
+  .show-description {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .show-meta {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .meta-box {
+    min-width: 100%;
+    padding: 12px;
+  }
+
+  .meta-title {
+    font-size: 0.85rem;
+  }
+
+  .meta-value {
+    font-size: 0.95rem;
+  }
+
+  .claim-section {
+    padding: 18px;
+    gap: 16px;
+  }
+
+  .claim-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .claim-user {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .claim-pfp {
+    width: 90px;
+    height: 90px;
+  }
+
+  .claim-name {
+    font-size: 1.1rem;
+  }
+
+  .claim-contact {
+    font-size: 0.95rem;
+    word-break: break-word;
+  }
 }

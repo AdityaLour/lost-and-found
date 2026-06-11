@@ -254,3 +254,418 @@ p .highlight {
 .card-container:has(.potential-find-card:active) .shadow-div {
   transform: translate(0px, 0px);
 }
+
+/* ==========================
+   TABLET
+========================== */
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .show-page {
+    padding: 140px 4% 60px;
+  }
+
+  .show-card {
+    width: 100%;
+  }
+
+  .show-image-section {
+    max-height: 450px;
+  }
+
+  .show-content {
+    padding: 24px;
+    gap: 14px;
+  }
+
+  .show-category {
+    font-size: 1.6rem;
+  }
+
+  .show-description {
+    font-size: 1.3rem;
+    line-height: 1.6;
+  }
+
+  .meta-title {
+    font-size: 1.1rem;
+  }
+
+  .meta-value {
+    font-size: 1.1rem;
+  }
+
+  .potential-finds-section {
+    padding: 50px 4%;
+  }
+
+  .potential-finds-section h2 {
+    font-size: 3rem;
+  }
+
+  .potential-finds-grid {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .potential-find-card img {
+    height: 180px;
+  }
+
+  .potential-find-content h3 {
+    font-size: 1.4rem;
+  }
+
+  .potential-find-content p,
+  .potential-find-content span {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .show-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 180px 5% 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .show-card {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    background: rgba(var(--card-bg), 0.78);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .show-image-section {
+    padding: 30px;
+    width: 100%;
+    min-height: 300px;
+    height: 60vh;
+    max-height: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .show-image-section img {
+    height: 120%;
+    object-position: center;
+    display: block;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .show-image-section img {
+    height: 100%;
+    object-position: center;
+    display: block;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .show-content {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .show-category {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+
+  .show-description {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .show-meta {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .meta-box {
+    padding: 14px;
+    min-width: 100%;
+  }
+
+  .meta-title {
+    font-size: 0.9rem;
+  }
+
+  .meta-value {
+    font-size: 1rem;
+  }
+
+  .potential-finds-section {
+    padding: 40px 15px;
+  }
+
+  .potential-finds-section h2 {
+    width: 100%;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .potential-finds-grid {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .potential-find-card img {
+    height: 180px;
+  }
+
+  .potential-find-content {
+    padding: 14px;
+    gap: 8px;
+  }
+
+  .potential-find-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .potential-find-content p,
+  .potential-find-content span {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+}
+
+/* =========================
+   LARGE TABLET
+========================= */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .show-page {
+    padding: 160px 4% 60px;
+  }
+
+  .show-card {
+    width: 100%;
+  }
+
+  .show-image-section {
+    max-height: 600px;
+  }
+
+  .show-content {
+    padding: 24px;
+  }
+
+  .show-category {
+    font-size: 1.8rem;
+  }
+
+  .show-description {
+    font-size: 1.5rem;
+  }
+
+  .meta-title,
+  .meta-value {
+    font-size: 1.2rem;
+  }
+
+  .potential-finds-section h2 {
+    font-size: 4rem;
+  }
+
+  .potential-finds-grid {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+
+  .potential-find-card img {
+    height: 180px;
+  }
+
+  .potential-find-content {
+    padding: 16px;
+    gap: 8px;
+  }
+
+  .potential-find-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .potential-find-content p,
+  .potential-find-content span {
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 768px) and (min-width: 481px) {
+  .show-page {
+    padding: 140px 20px 50px;
+  }
+
+  .show-card {
+    width: 100%;
+  }
+
+  .show-image-section {
+    max-height: 450px;
+  }
+
+  .show-content {
+    padding: 20px;
+    gap: 14px;
+  }
+
+  .show-category {
+    font-size: 1.5rem;
+  }
+
+  .show-description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+
+  .meta-title {
+    font-size: 1rem;
+  }
+
+  .meta-value {
+    font-size: 1rem;
+  }
+
+  .potential-finds-section {
+    padding: 50px 4%;
+  }
+
+  .potential-finds-section h2 {
+    font-size: 3rem;
+  }
+
+  .potential-finds-grid {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .potential-find-card img {
+    height: 160px;
+  }
+
+  .potential-find-content {
+    padding: 14px;
+    gap: 8px;
+  }
+
+  .potential-find-content h3 {
+    font-size: 1.3rem;
+  }
+
+  .potential-find-content p,
+  .potential-find-content span {
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+}
+
+/* =========================
+   PHONE
+========================= */
+
+@media (max-width: 480px) {
+  .show-page {
+    padding: 120px 15px 40px;
+  }
+
+  .show-card {
+    width: 100%;
+    border-radius: 18px;
+  }
+
+  .show-image-section {
+    max-height: 260px;
+  }
+
+  .show-content {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .show-category {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+
+  .show-description {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .show-meta {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .meta-box {
+    min-width: 100%;
+    padding: 12px;
+  }
+
+  .meta-title {
+    font-size: 0.85rem;
+  }
+
+  .meta-value {
+    font-size: 0.95rem;
+  }
+
+  .potential-finds-section {
+    padding: 40px 15px;
+  }
+
+  .potential-finds-section h2 {
+    width: 100%;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .potential-finds-grid {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+
+  .potential-find-card img {
+    height: 140px;
+  }
+
+  .potential-find-content {
+    padding: 12px;
+    gap: 6px;
+  }
+
+  .potential-find-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .potential-find-content p,
+  .potential-find-content span {
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+}

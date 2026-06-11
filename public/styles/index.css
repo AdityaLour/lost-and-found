@@ -366,7 +366,7 @@ a {
 
 @media (max-width: 650px) {
   body {
-    overflow: hidden;
+    overflow-x: hidden;
   }
   .main-part {
     display: flex;
