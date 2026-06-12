@@ -21,7 +21,8 @@
       Found Items
     </h1>
 
-    <a href="/found/location" class="add-item-btn">
+
+    <a href="<%= currentUser ? '/found/location' : '/auth/getstarted?form=login' %>" class="add-item-btn">
       <span style="display:block; line-height:1; transform: translateY(-1px);">+</span>
     </a>
 
@@ -37,7 +38,7 @@
             </span>
 
             <p>
-              <%= item.description.details.slice(0, 20) %>...
+              <%= item.description.details.slice(0, 30) %>...
             </p>
 
             <span class="date">

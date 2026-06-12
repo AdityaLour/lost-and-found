@@ -18,7 +18,7 @@
       Lost Items
     </h1>
 
-    <a href="/lost/location" class="add-item-btn">
+    <a href="<%= currentUser ? '/lost/location' : '/auth/getstarted?form=login' %>" class="add-item-btn">
       <span style="display:block; line-height:1; transform: translateY(-1px);">+</span>
     </a>
 
@@ -30,7 +30,7 @@
           <img src="<%= item.images[0] %>" alt="Lost Item">
           <div class="lost-item-content">
             <h2><%= item.description.category %></h2>
-            <p><%= item.description.details.slice(0, 20) %>...</p>
+            <p><%= item.description.details.slice(0, 30) %>...</p>
             <span><%= new Date(item.description.lostDate).toDateString() %></span>
           </div>
         </a>

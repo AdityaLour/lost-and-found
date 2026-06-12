@@ -16,24 +16,22 @@ const {
 
 const auth = require("../middlewares/auth");
 
-router.get("/location", getLocationPage);
-router.post("/location", saveLocation);
+router.get("/location", auth, getLocationPage);
+router.post("/location", auth, saveLocation);
 
-router.get("/category", getCategoryPage);
-router.post("/category", saveCategory);
+router.get("/category", auth, getCategoryPage);
+router.post("/category", auth, saveCategory);
 
-router.get("/description", getDescriptionPage);
-router.post("/description", saveDescription);
+router.get("/description", auth, getDescriptionPage);
+router.post("/description", auth, saveDescription);
 
-router.get("/image", (req, res) => {
+router.get("/image", auth, (req, res) => {
   res.render("found/image");
 });
 
-router.post("/image", upload.array("images", 3), createFoundItem);
+router.post("/image", auth, upload.array("images", 3), createFoundItem);
 
 router.get("/items", getAllFoundItems);
 router.get("/items/:id", getSingleFoundItem);
-
-router.get("/location", auth, getLocationPage);
 
 module.exports = router;
