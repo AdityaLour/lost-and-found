@@ -6,8 +6,28 @@
     </a>
 
     <ul>
-      <li class="btn-signup"><a href="/auth/getstarted?form=signup">Sign Up</a></li>
-      <li class="btn-login"><a href="/auth/getstarted?form=login">Login</a></li>
+      <% if(currentUser) { %>
+      <li class="profile-menu">
+        <button class="profile-btn">
+          <img src="/assets/animations/male-user-shadow-svgrepo-com.svg" alt="Profile">
+        </button>
+
+        <div class="dropdown-menu">
+          <a href="/auth/profile">Profile</a>
+          <form action="/auth/logout" method="POST">
+            <button type="submit" class="logout-btn">Logout</button>
+          </form>
+        </div>
+      </li>
+      <% } else { %>
+      <li class="btn-signup">
+        <a href="/auth/getstarted?form=signup">Sign Up</a>
+      </li>
+
+      <li class="btn-login">
+        <a href="/auth/getstarted?form=login">Login</a>
+      </li>
+      <% } %>
     </ul>
   </nav>
   <script>
