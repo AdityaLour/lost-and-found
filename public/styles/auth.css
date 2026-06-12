@@ -560,3 +560,133 @@ a {
     transform-origin: left;
   }
 }
+
+/* =========================
+   SHORT HEIGHT LAPTOPS
+========================= */
+
+@media (max-height: 850px) {
+  body {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 28px;
+    gap: 24px;
+  }
+
+  .auth-title {
+    font-size: 2.3rem;
+    margin-bottom: 14px;
+  }
+
+  .auth-toggle {
+    margin-bottom: 14px;
+  }
+
+  .auth-toggle a {
+    font-size: 1.4rem;
+    padding: 10px;
+  }
+
+  .auth-form {
+    gap: 20px;
+  }
+
+  .form-group label {
+    font-size: 1.3rem;
+  }
+
+  .form-input {
+    height: 48px;
+  }
+
+  .btn-container {
+    height: 54px;
+  }
+
+  .button {
+    height: 48px;
+  }
+
+  .btn-container .shadow-div {
+    height: 48px;
+  }
+
+  .auth-switch {
+    font-size: 1rem;
+  }
+}
+
+@media (max-height: 720px) {
+  body {
+    padding: 8px;
+  }
+
+  .card {
+    padding: 18px 24px;
+    gap: 16px;
+    border-radius: 24px;
+  }
+
+  .auth-title {
+    font-size: 1.9rem;
+    margin-bottom: 10px;
+  }
+
+  .auth-toggle {
+    margin-bottom: 10px;
+  }
+
+  .auth-toggle a {
+    font-size: 1.1rem;
+    padding: 8px;
+  }
+
+  .auth-form {
+    gap: 14px;
+  }
+
+  .form-group {
+    column-gap: 20px;
+  }
+
+  .form-group label {
+    width: 140px;
+    font-size: 1.1rem;
+  }
+
+  .form-input {
+    height: 42px;
+  }
+
+  .btn-container {
+    height: 48px;
+  }
+
+  .button {
+    height: 42px;
+  }
+
+  .btn-container .shadow-div {
+    height: 42px;
+  }
+
+  .auth-switch {
+    font-size: 0.9rem;
+  }
+
+  .message,
+  #messageBox {
+    font-size: 0.9rem;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-height: 650px) {
+  .card {
+    transform: scale(0.88);
+    transform-origin: center;
+  }
+}

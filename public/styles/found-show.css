@@ -160,6 +160,7 @@ body {
   justify-content: center;
   background: rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
+  -webkit-filter: invert(1);
 }
 
 .claim-pfp img {
