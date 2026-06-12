@@ -12,7 +12,7 @@ async function getLocationPage(req, res) {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).send("Server failed to respond");
+    return res.status(500).render("errors/500");
   }
 }
 
@@ -20,7 +20,7 @@ async function saveLocation(req, res) {
   const { address, latitude, longitude, source } = req.body;
   try {
     if (!address || !latitude || !longitude) {
-      return res.status(400).send("Please select a valid location");
+      return res.status(400).render("errors/400");
     }
 
     req.session.lostItem = {
@@ -35,7 +35,7 @@ async function saveLocation(req, res) {
     return res.redirect("/lost/category");
   } catch (error) {
     console.log(error);
-    return res.status(500).send("Server failed to respond");
+    return res.status(500).render("errors/500");
   }
 }
 
@@ -44,7 +44,7 @@ async function getDescriptionPage(req, res) {
     return res.render("lost/description", { title: "Lost Item description" });
   } catch (error) {
     console.log(error);
-    return res.status(500).send("Server failed to respond");
+    return res.status(500).render("errors/500");
   }
 }
 
@@ -54,7 +54,7 @@ async function getCategoryPage(req, res) {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).send("Server failed");
+    return res.status(500).render("errors/500");
   }
 }
 
@@ -63,7 +63,7 @@ async function saveCategory(req, res) {
 
   try {
     if (!category) {
-      return res.status(400).send("Please select category");
+      return res.status(400).render("errors/400");
     }
 
     req.session.lostItem.category = category;
@@ -74,7 +74,7 @@ async function saveCategory(req, res) {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).send("Server failed");
+    return res.status(500).render("errors/500");
   }
 }
 
@@ -83,7 +83,7 @@ async function saveDescription(req, res) {
 
   try {
     if (new Date(lostDate) > new Date()) {
-      return res.status(400).send("Invalid lost date");
+      return res.status(400).render("errors/400");
     }
     req.session.lostItem.description = {
       category: req.session.lostItem.category,
@@ -97,7 +97,7 @@ async function saveDescription(req, res) {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).send("Server failed");
+    return res.status(500).render("errors/500");
   }
 }
 
@@ -121,11 +121,8 @@ async function createLostItem(req, res) {
 
     const finalLostItem = await LostItem.create({
       user: req.user.id,
-
       location: req.session.lostItem.location,
-
       description: req.session.lostItem.description,
-
       images: imageUrls,
     });
 
@@ -135,7 +132,7 @@ async function createLostItem(req, res) {
 
     console.log(error);
 
-    return res.status(500).send("DB FAILED");
+    return res.status(500).render("errors/500");
   }
 }
 
@@ -150,7 +147,7 @@ async function getAllLostItems(req, res) {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).send("Server failed to respond");
+    return res.status(500).render("errors/500");
   }
 }
 
@@ -158,7 +155,7 @@ async function getSingleLostItem(req, res) {
   try {
     const lostItem = await LostItem.findById(req.params.id);
     if (!lostItem) {
-      return res.status(404).send("Lost item not found");
+      return res.status(404).render("errors/404");
     }
 
     const isOwner = req.user && lostItem.user.equals(req.user.id);
@@ -331,7 +328,7 @@ async function getSingleLostItem(req, res) {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).send("Server failed to respond");
+    return res.status(500).render("errors/500");
   }
 }
 

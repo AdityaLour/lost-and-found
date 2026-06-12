@@ -1,6 +1,9 @@
 const User = require("../models/user-schema");
 const admin = require("../config/firebase-admin");
 
+const LostItem = require("../models/lost-schema");
+const FoundItem = require("../models/found-schema");
+
 async function startSignUp(req, res) {
   const { username, phoneNumber } = req.body;
   try {
@@ -37,9 +40,7 @@ async function startSignUp(req, res) {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).json({
-      message: "Server failed to respond",
-    });
+    return res.status(500).render("errors/500");
   }
 }
 
@@ -98,9 +99,7 @@ async function completeSignup(req, res) {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).json({
-      message: "Server failed to respond",
-    });
+    return res.status(500).render("errors/500");
   }
 }
 
@@ -128,9 +127,7 @@ async function startLogin(req, res) {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).json({
-      message: "Server failed to respond",
-    });
+    return res.status(500).render("errors/500");
   }
 }
 
@@ -183,15 +180,32 @@ async function completeLogin(req, res) {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).json({
-      message: "Server failed to respond",
-    });
+    return res.status(500).render("errors/500");
   }
 }
 
 function logout(req, res) {
   req.session.destroy(() => {
-    res.redirect("/auth/login");
+    res.redirect("/");
+  });
+}
+
+async function getProfilePage(req, res) {
+  if (!req.user) {
+    return res.redirect("/auth/getstarted?form=login");
+  }
+  const lostItems = await LostItem.find({
+    user: req.user.id,
+  }).sort({ createdAt: -1 });
+
+  const foundItems = await FoundItem.find({
+    user: req.user.id,
+  }).sort({ createdAt: -1 });
+
+  return res.render("profile", {
+    user: req.user,
+    lostItems,
+    foundItems,
   });
 }
 
@@ -201,4 +215,5 @@ module.exports = {
   startLogin,
   completeLogin,
   logout,
+  getProfilePage,
 };

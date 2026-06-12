@@ -6,6 +6,8 @@ const {
   completeSignup,
   startLogin,
   completeLogin,
+  logout,
+  getProfilePage,
 } = require("../controllers/auth-controller");
 
 router.get("/getstarted", (req, res) => {
@@ -38,5 +40,8 @@ router.post("/complete-signup", completeSignup);
 
 router.post("/start-login", startLogin);
 router.post("/complete-login", completeLogin);
+
+router.post("/logout", logout);
+router.get("/profile", getProfilePage);
 
 module.exports = router;
